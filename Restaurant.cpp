@@ -2,6 +2,9 @@
 #include <iostream>
 using namespace std;
 
+
+int Restaurant::count=0;
+
 Restaurant::Restaurant(string n,string co, string adr):name(n),cuisine(co),address(adr) {
   		stringstream ss;
         ss<<"R-"<<setfill('0')<<setw(4)<<count++; //total of 4 digits (including the number from count)...  i guess
