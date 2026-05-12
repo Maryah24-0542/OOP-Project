@@ -9,7 +9,7 @@ using namespace std;
 class Order;
 class Customer {
 private:
-    static int NextID;
+    static int countID;
     int PhoneNumber;
     string Name,Email,Address,CustomerID;
     vector<Order*> orderHistory;
