@@ -1,1 +1,0 @@
-#ifndef UNTITLED_PAYMENT_H
