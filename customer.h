@@ -25,7 +25,7 @@ public:
     string getName();
     string getEmail();
     string getAddress();
-    int getCustomerID();
+    string getCustomerID();
     vector<Order*> getOrderHistory();
     void Display();
 
