@@ -15,13 +15,16 @@ using namespace std;
 //  Item  –  stored INSIDE Order (Composition)
 class Item {
 private:
-    int    itemID;
+    int    itemID;       // auto-generated, no need to pass it manually
     string itemName;
     int    quantity;
     double price;
 
+    static int nextItemID;  // shared counter across ALL items ever created
+
 public:
-    Item(int id, string name, int qty, double p);
+    // No itemID parameter – it is assigned automatically
+    Item(string name, int qty, double p);
 
     // Getters
     int    getItemID()   const;
@@ -30,7 +33,6 @@ public:
     double getPrice()    const;
 
     // Setters
-    void setItemID(int id);
     void setItemName(string n);
     void setQuantity(int q);
     void setPrice(double p);
@@ -39,28 +41,27 @@ public:
 };
 
 
-
 class Order {
 private:
-    // ── Identity ──────────────────────────────
+    //Identity 
     int    orderID;
     string orderTime;
     string status;       // Pending → Paid → Preparing → On the way → Delivered
 
-    // Financial 
+    //  Financial 
     double itemsTotal;       // sum of all item prices
     double deliveryFee;      // calculated from driver + distance
     double totalAmount;      // itemsTotal + deliveryFee
     string deliveryAddress;
 
-    //  Delivery 
-    double distance;         // distance in km (needed for delivery fee + ETA)
+    //Delivery 
+    double distance;         // distance in km
     double estimatedTime;    // estimated delivery time in minutes
 
-    // Items (Composition – Order owns them) 
+    // Items (Composition – Order owns them) ─
     vector<Item> items;
 
-    // ── Relationships ─────────────────────────
+    //  Relationships
     Customer    customerSnapshot;  // Composition  –  stored by value
     Restaurant* restaurant;        // Aggregation  – pointer, shared lifetime
     Driver*     driver;            // Aggregation  – pointer, assigned later
@@ -69,19 +70,19 @@ private:
     static int nextOrderID;
 
 public:
-    // Constructor / Destructor 
+    //  Constructor / Destructor 
     Order(Customer c, Restaurant* rest, string address, double distanceKm, string time = "N/A");
     ~Order();
 
-    // Setters 
+    //Setters 
     void setOrderTime(string t);
     void setStatus(string s);
     void setDeliveryAddress(string a);
     void setDistance(double d);
-    void setDriver(Driver* d);    // assigns driver, marks driver unavailable, calculates fee + ETA
-    void setPayment(Payment* p);  // links payment, moves status to Paid
+    void setDriver(Driver* d);
+    void setPayment(Payment* p);
 
-    //  Getters 
+    // Getters
     int          getOrderID()          const;
     string       getOrderTime()        const;
     string       getStatus()           const;
@@ -97,9 +98,9 @@ public:
     Payment*     getPayment()          const;
     vector<Item> getItems()            const;
 
-    
-    void   addItem(int id, string name, int qty, double price);
-    double calculateTotal();   // recalculates itemsTotal + deliveryFee + totalAmount
+    //  Operations
+    void   addItem(string name, int qty, double price);  // no id needed anymore
+    double calculateTotal();
     void   updateStatus(string newStatus);
     void   displayOrder() const;
 };
