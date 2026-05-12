@@ -13,11 +13,11 @@ Customer::Customer( int phone, string name,string email,string address) {
     Email=email;
     Address=address;
     stringstream ss;
-    ss<<"C-"<<setfill('0')<<setw(4)<<countID; //total of 4 digits (including the number from count)...  i guess
+    ss<<"C-"<<setfill('0')<<setw(4)<<countID++; //total of 4 digits (including the number from count)...  i guess
    CustomerID=ss.str(); //turn it into a string like "C-0001"
-    countID++;
+
 }
-int Customer::NextID=1;
+int Customer::countID=1;
 
 void Customer::setName() {
     cout<<"Welcome , Please enter the following information !"<<endl;
