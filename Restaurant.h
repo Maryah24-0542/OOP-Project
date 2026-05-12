@@ -5,6 +5,7 @@
 
 using namespace std;
 
+
 class Restaurant{
 	private:
     	string restaurantId; //the output gonna be like "R-0001"
@@ -23,3 +24,4 @@ class Restaurant{
         string getAddress() const;
         string getId() const;
 };
+Menu& getMenu() { return menu; }
