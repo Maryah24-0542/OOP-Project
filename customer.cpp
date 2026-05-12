@@ -1,5 +1,6 @@
 # include "customer.h"
 # include<iostream>
+# include<iomanip>
 using namespace std;
 
 
@@ -10,9 +11,13 @@ Customer::Customer( int phone, string name,string email,string address) {
     Name=name;
     Email=email;
     Address=address;
-    CustomerID=++NextID;
+    stringstream ss;
+    ss<<"C-"<<setfill('0')<<setw(4)<<countID; //total of 4 digits (including the number from count)...  i guess
+   CustomerID=ss.str(); //turn it into a string like "C-0001"
+    cout<<"your Customer ID: "<<CustomerID<<endl;
+    countID++;
 }
-int Customer::NextID=0;
+int Customer::NextID=1;
 
 void Customer::setName() {
     cout<<"Welcome , Please enter the following information !"<<endl;
@@ -60,7 +65,7 @@ string Customer::getAddress() {
     return Address;
 }
 
-int Customer::getCustomerID() {
+string Customer::getCustomerID() {
     return CustomerID;
 }
 
