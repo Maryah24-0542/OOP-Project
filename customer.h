@@ -10,8 +10,8 @@ class Order;
 class Customer {
 private:
     static int NextID;
-    int PhoneNumber,CustomerID;
-    string Name,Email,Address;
+    int PhoneNumber;
+    string Name,Email,Address,CustomerID;
     vector<Order*> orderHistory;
 public:
     Customer();
