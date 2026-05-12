@@ -4,102 +4,94 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include <sstream>
-#include <iomanip>
+#include "Customer.h"
+#include "Restaurant.h"
+#include "Driver.h"
+#include "Payment.h"
+
 using namespace std;
 
-// Forward declarations 
-class Customer;
-class Restaurant;
-class Driver;
-class Payment;
 
-//  OrderItem  (Menue selection)
-
-struct OrderItem {
+//  Item  –  stored INSIDE Order (Composition)
+class Item {
+private:
+    int    itemID;
     string itemName;
-    double itemPrice;
     int    quantity;
+    double price;
 
-    OrderItem(string n, double p, int q = 1)
-        : itemName(n), itemPrice(p), quantity(q) {}
+public:
+    Item(int id, string name, int qty, double p);
 
-    double subtotal() const { return itemPrice * quantity; }
+    // Getters
+    int    getItemID()   const;
+    string getItemName() const;
+    int    getQuantity() const;
+    double getPrice()    const;
+
+    // Setters
+    void setItemID(int id);
+    void setItemName(string n);
+    void setQuantity(int q);
+    void setPrice(double p);
+
+    void display() const;
 };
+
 
 
 class Order {
 private:
-   
-    string      orderID;
-    static int  orderCount;
 
-    //  Associations (pointers — Order does NOT own these objects) 
-    Customer*   customer;       // WHO placed the order
-    Restaurant* restaurant;     // WHERE the order is from
-    Driver*     driver;         // WHO delivers it  (CarDriver or BikeDriver)
-    Payment*    payment;        // HOW it is paid  
+    int    orderID;
+    string orderTime;
+    string status;      // Pending → Paid → Preparing → On the way → Delivered
 
-    // Order contents 
-    vector<OrderItem> items;    // items selected from the Restaurant's Menu
+    //Financial
+    double totalAmount;
+    string deliveryAddress;
 
-    // Delivery info 
-    double      deliveryDistance;   // in km
-    string      deliveryAddress;
+    // Items (Composition – Order owns them) 
+    vector<Item> items;
 
-    // Status & timing 
-    string status;
-    string orderDate;
+    
+    Customer    customerSnapshot;  // Composition  – snapshot stored by value
+    Restaurant* restaurant;        // Aggregation  – pointer, shared lifetime
+    Driver*     driver;            // Aggregation  – pointer, assigned later
+    Payment*    payment;           // Composition  – Order owns and deletes it
+
+    static int nextOrderID;
 
 public:
-    //  Constructors
-    Order();
-    Order(Customer* c, Restaurant* r, string address, double distance);
-
-    // Item management 
-    void addItem(string itemName, double price, int quantity = 1);
-    void removeItem(string itemName);
-    void displayItems() const;
-
-   
-    void assignDriver(Driver* d);       // attach CarDriver or BikeDriver
-    void setPayment(Payment* p);        // attach a Payment object
-
-    // ── Calculations ─────────────────────────────
-    double calcSubtotal()      const;   // sum of all item subtotals
-    double calcDeliveryFee()   const;   // delegated to Driver
-    double calcTotal()         const;   // subtotal + delivery fee
-    double getEstimatedTime()  const;   // delegated to Driver
-
-    //Status management
-    void   setStatus(string s);
-    string getStatus() const;
-    void   cancelOrder();
-
-    // Getters
-    string             getOrderID()          const;  
-    Customer*          getCustomer()         const;
-    Restaurant*        getRestaurant()       const;
-    Driver*            getDriver()           const;
-    Payment*           getPayment()          const;
-    string             getDeliveryAddress()  const;
-    double             getDeliveryDistance() const;
-    string             getOrderDate()        const;
-    vector<OrderItem>  getItems()            const;  // returns copy of items list
+    //  Constructor / Destructor
+    Order(Customer c, Restaurant* rest, string address, string time = "N/A");
+    ~Order();
 
     // Setters
-    // orderID has NO setter it is auto-generated and should never change
-    void setCustomer(Customer* c);
-    void setRestaurant(Restaurant* r);
-    void setDriver(Driver* d);          // renamed from assignDriver for consistency
+    void setOrderTime(string t);
+    void setStatus(string s);
+    void setTotalAmount(double a);
+    void setDeliveryAddress(string a);
+    void setDriver(Driver* d);
     void setPayment(Payment* p);
-    void setOrderDate(string date);
-    void setDeliveryAddress(string address);
-    void setDeliveryDistance(double distance);
 
-    // ── Display ───────────────────────────────────
-    void displayOrder() const;          // full order summary
-    void displayReceipt() const;        // formatted receipt
+    //  Getters 
+    int          getOrderID()          const;
+    string       getOrderTime()        const;
+    string       getStatus()           const;
+    double       getTotalAmount()      const;
+    string       getDeliveryAddress()  const;
+    Customer     getCustomerSnapshot() const;
+    Restaurant*  getRestaurant()       const;
+    Driver*      getDriver()           const;
+    Payment*     getPayment()          const;
+    vector<Item> getItems()            const;
+
+    // Operations 
+    void   addItem(int id, string name, int qty, double price);
+    double calculateTotal();
+    void   updateStatus(string newStatus);
+    void   displayOrder() const;
 };
 
 #endif // ORDER_H
