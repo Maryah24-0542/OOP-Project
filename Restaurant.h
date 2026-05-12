@@ -7,11 +7,16 @@ using namespace std;
 
 class Restaurant{
 	private:
-    	int restaurantId;
+    	string restaurantId;
     	string name;
-    	Menu menu;  //Restaurant has-a Menu
+        string cuisine;
+        string address;
+    	Menu menu; //Restaurant has-a Menu
+        static int count;
+
 	public:
-    	Restaurant(int id, string n);
+    	Restaurant(string n, string co, string adr);
     	void addToMenu(string itemName,double price);
     	void display() const;
+
 };
