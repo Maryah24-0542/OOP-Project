@@ -1,7 +1,7 @@
 #include <sstream> //will use it for stringstream
 #include <iomanip> //need it for setfill and setw
 #include <string>
-#include "Menu.h" //bc Resturant HAS-A menu (we will use it)
+#include "Menu.h" //because Resturant HAS-A menu (we will use it)
 
 using namespace std;
 
