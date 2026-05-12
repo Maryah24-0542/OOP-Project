@@ -21,3 +21,22 @@ void BikeDriver::setBaseFarePerKm() {
 double BikeDriver::getBaseFarePerKm() {
     return baseFarePerKm;
 }
+
+
+void BikeDriver::setBikeModel() {
+    cout<<"Enter Bike model : ";
+    cin>>bikeModel;
+}
+
+string BikeDriver::getBikeModel() {
+    return bikeModel;
+}
+
+
+void BikeDriver::showDetails() {
+    cout<<"Base Fare per kilometer: "<<getBaseFarePerKm()<<"\n";
+    cout<<"Maximum load of of bike: "<<getMaxLoad()<<"\n";
+    cout<<"Bike model: "<<getBikeModel()<<"\n";
+    
+}
+
