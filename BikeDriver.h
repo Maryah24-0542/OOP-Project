@@ -11,11 +11,12 @@ private:
     double baseFarePerKm;
     string bikeModel;
     double maxLoadKg;
+string plateNumber;
 
 public:
     BikeDriver(){}
-    BikeDriver(int ID,string n,int p,string vn,bool isav,double e,double b,string model,double max)
-        :Driver(ID,n,p,vn,isav,e),baseFarePerKm(b),bikeModel(model),maxLoadKg(max){}
+        BikeDriver(int ID,string n,int p,string vn,bool isav,double e,double b,string model,double max,string num)
+        :Driver(ID,n,p,vn,isav,e),baseFarePerKm(b),bikeModel(model),maxLoadKg(max),plateNumber(num){}
     double calcDeliveryFee(double distance) override {
         return baseFarePerKm*distance;
     }
