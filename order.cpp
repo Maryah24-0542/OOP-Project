@@ -67,7 +67,7 @@ Order::Order(Customer* c, Restaurant* rest, string address, double distanceKm, s
 // Destructor 
 Order::~Order() {
     delete payment;   // Order owns payment → delete it
-    // customer, restaurant, driver are NOT deleted (shared/external lifetime)
+   
 }
 
 //  Setters
