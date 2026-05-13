@@ -32,11 +32,24 @@ string BikeDriver::getBikeModel() {
     return bikeModel;
 }
 
+void BikeDriver::setPlateNumber() {
+    cout<<"Enter plate number: ";
+    cin>>plateNumber;
+}
+
+string BikeDriver::getPlateNumber() {
+    return plateNumber;
+}
+
 
 void BikeDriver::showDetails() {
     cout<<"Base Fare per kilometer: "<<getBaseFarePerKm()<<"\n";
     cout<<"Maximum load of of bike: "<<getMaxLoad()<<"\n";
     cout<<"Bike model: "<<getBikeModel()<<"\n";
+    cout<<"Plate number -> "<<getPlateNumber()<<"\n";
+    cout<<"Delivery fee is -> "<<calcDeliveryFee()<<"\n";
+    cout<<"Estimated time for delivery -> "<<getESTtime()<<"\n";
+    
     
 }
 
