@@ -35,14 +35,21 @@ string CarDriver::getCarModel() {
     return carModel;
 }
 
+void CarDriver::setPlateNumber() {
+    cout<<"Enter plate number : ";
+    cin>>plateNumber;
+}
+
+string CarDriver::getPlateNumber() {
+    return plateNumber;
+}
+
 void CarDriver::showDetails() {
     cout<<"Car Model :"<<getCarModel()<<"\n";
     cout<<"Seating capacity of the car : "<<getSeatingCapacity()<<"\n";
     cout<<"Base fare per kilometer :"<<getBaseFarePerKm()<<"\n";
-    cout<<"Delivery fee is : "<<calcDeliveryFee();
-    cout<<"Estimated time for delivery : "<<getESTtime();
-
-
-
+    cout<<"Delivery fee is : "<<calcDeliveryFee()<<"\n";
+    cout<<"Estimated time for delivery : "<<getESTtime()<<"\n";
+    cout<<"Plate number -> "<<getPlateNumber()<<"\n";
 
 }
