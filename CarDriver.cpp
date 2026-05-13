@@ -48,8 +48,9 @@ void CarDriver::showDetails() {
     cout<<"Car Model :"<<getCarModel()<<"\n";
     cout<<"Seating capacity of the car : "<<getSeatingCapacity()<<"\n";
     cout<<"Base fare per kilometer :"<<getBaseFarePerKm()<<"\n";
-    cout<<"Delivery fee is : "<<calcDeliveryFee()<<"\n";
-    cout<<"Estimated time for delivery : "<<getESTtime()<<"\n";
     cout<<"Plate number -> "<<getPlateNumber()<<"\n";
+    cout<<"Delivery fee is -> "<<calcDeliveryFee()<<"\n";
+    cout<<"Estimated time for delivery -> "<<getESTtime()<<"\n";
+    
 
 }
