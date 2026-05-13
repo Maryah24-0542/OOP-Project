@@ -31,5 +31,7 @@ public:
     string getBikeModel();
     void setMaxLoad();
     double getMaxLoad();
+    void setPlateNumber();
+    string getPlateNumber();
  void showDetails(); 
 };
