@@ -134,7 +134,6 @@ void Order::addItem(string name, int qty, double price) {
     }
 
     //  Quantity validation 
-    // Reject zero or negative quantities silently before they corrupt the total
     if (qty <= 0) {
         cout << "Invalid quantity \"" << qty << "\" – must be greater than 0." << endl;
         return;
