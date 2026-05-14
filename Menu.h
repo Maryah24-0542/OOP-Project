@@ -3,8 +3,7 @@
 #include <iostream>
 using namespace std;
 
-bool   hasItem(string name) const;
-double getItemPrice(string name) const;
+
 
 
 // Menu class (gonna compose from Resturant)
