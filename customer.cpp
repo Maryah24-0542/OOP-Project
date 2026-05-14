@@ -69,7 +69,10 @@ string Customer::getCustomerID() {
     return CustomerID;
 }
 
+void Customer::PLaceOrder(Order* order){
 
+    orderHistory.push_back(order);
+}
 
 void Customer::Display() {
     cout<<"----------------------------------------\n";
