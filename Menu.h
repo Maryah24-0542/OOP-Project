@@ -14,5 +14,6 @@ class Menu{
     public:
         Menu(); //we start with an empty menu
         void addItem(string n, double p);
+        double getItemPrice(string name) const;
     	void display() const; //reads only (we use const here)
 };
