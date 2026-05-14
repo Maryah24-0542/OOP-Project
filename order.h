@@ -11,50 +11,51 @@
 
 using namespace std;
 
+
 class Order {
 
 private:
 
-    int orderID;
-    string status;
+    int orderID;              // unique id for each order
+    string status;            // order status (Preparing, Delivered, Cancelled)
 
-    string itemName;
-    string orderTime;
-    string paymentStatus;
+    string itemName;          // food item name
+    string orderTime;         // time of order
+    string paymentStatus;     // payment status
 
-    double distance;
-    double foodPrice;
+    double distance;          // delivery distance
+    double foodPrice;         // price of food
 
+    // links to other classes (relationships)
     Customer* customer;
     Restaurant* restaurant;
     Driver* driver;
     Payment* payment;
 
-    static int nextID;
+    static int nextID;        // auto increment ID
 
 public:
 
-    Order();
+    Order(); // default constructor
 
     Order(Customer* c , Restaurant* r ,
           Driver* d , Payment* p ,
           double dis, double food, string item);
 
-    void setStatus(string s);
-    string getStatus();
+    void setStatus(string s);     // change order status
+    string getStatus();           // get order status
 
-    int getOrderID();
+    int getOrderID();             // get order ID
 
-    void assignDriver(Driver* d);
+    void assignDriver(Driver* d); // assign driver to order
 
-    double calculateTotalFee();
+    double calculateTotalFee();   // calculate total price
 
-    void cancelOrder();
+    void cancelOrder();           // cancel order
 
-    bool isDelivered();
+    bool isDelivered();           // check if delivered
 
-    void displayOrder();
-
+    void displayOrder();          // show order details
 };
 
 #endif
