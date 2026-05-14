@@ -12,8 +12,7 @@ Restaurant::Restaurant(string n,string co, string adr):name(n),cuisine(co),addre
         cout<<"Resturant: "<<name<<"has been added, your resturant ID: "<<restaurantId<<endl;
 }
 
-void Restaurant::addToMenu(string itemName, double price) {
-  menu.addItem(itemName, price);
+
 }
 void Restaurant::display() const{
         cout<<"======================================="<<endl;
