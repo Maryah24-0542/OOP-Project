@@ -1,56 +1,60 @@
-#ifndef UNTITLED_ORDER_H
-#define UNTITLED_ORDER_H
+#ifndef ORDER_H
+#define ORDER_H
 
 #include <iostream>
 #include <string>
 
-#include "customer.h"
+#include "Customer.h"
 #include "Restaurant.h"
 #include "Driver.h"
 #include "Payment.h"
 
 using namespace std;
 
-// Order class represents a food order in the system
 class Order {
 
 private:
 
-    int orderID;              // unique ID for each order
-    string orderStatus;      // status of the order (Preparing, Delivered, Cancelled)
+    int orderID;
+    string status;
 
-    string itemName;         // name of food item(burger, pizza,......)
+    string itemName;
+    string orderTime;
+    string paymentStatus;
 
-    double distance;         // delivery distance
-    double foodPrice;        // price of food
+    double distance;
+    double foodPrice;
 
-    // (associations)
-    Customer* customer;      
+    Customer* customer;
     Restaurant* restaurant;
     Driver* driver;
     Payment* payment;
 
-    static int nextID;       // auto increment order ID
+    static int nextID;
 
 public:
 
-    Order();  // default constructor
+    Order();
 
-    // constructor with all order details
     Order(Customer* c , Restaurant* r ,
           Driver* d , Payment* p ,
           double dis, double food, string item);
 
-    void setStatus(string s);  // change order status
-    string getStatus();        // get order status
+    void setStatus(string s);
+    string getStatus();
 
-    int getOrderID();          // get order ID
+    int getOrderID();
 
-    double calculateTotalFee(); // calculate total price
+    void assignDriver(Driver* d);
 
-    void cancelOrder();        // cancel the order
+    double calculateTotalFee();
 
-    void displayOrder();       // show order details
+    void cancelOrder();
+
+    bool isDelivered();
+
+    void displayOrder();
+
 };
 
 #endif
