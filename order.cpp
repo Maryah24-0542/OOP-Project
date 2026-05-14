@@ -1,85 +1,89 @@
 #include "Order.h"
 
-int Order::nextID = 1000;
+int Order::nextID = 1000; // start order IDs from 1000
 
+// default constructor
 Order::Order() {
 
-    orderID = ++nextID;
+    orderID = ++nextID; // generate new ID
 
-    orderStatus = "Preparing";
+    orderStatus = "Preparing"; // default status
 
     itemName = "";
-
     distance = 0;
     foodPrice = 0;
 
+    // initialize pointers to NULL (no data yet)
     customer = NULL;
     restaurant = NULL;
     driver = NULL;
     payment = NULL;
 }
 
+// main constructor
 Order::Order(Customer* c , Restaurant* r ,
              Driver* d , Payment* p ,
              double dis, double food, string item) {
 
-    orderID = ++nextID;
+    orderID = ++nextID; // new ID
 
-    customer = c;
-    restaurant = r;
-    driver = d;
-    payment = p;
+    customer = c;       // link customer
+    restaurant = r;     // link restaurant
+    driver = d;         // link driver
+    payment = p;        // link payment
 
-    distance = dis;
-    foodPrice = food;
-    itemName = item;
+    distance = dis;     // set distance
+    foodPrice = food;   // set food price
+    itemName = item;    // set item name
 
-    orderStatus = "Preparing";
+    orderStatus = "Preparing"; // initial status
 
-    // make driver busy
+    // make driver busy when assigned
     if(driver != NULL)
         driver->setAvailability(false);
 
-    // add order to customer history
+    // add order to customer's history
     if(customer != NULL)
         customer->PLaceOrder(this);
 }
 
+// change order status
 void Order::setStatus(string s) {
-
     orderStatus = s;
 }
 
+// return order status
 string Order::getStatus() {
-
     return orderStatus;
 }
 
+// return order ID
 int Order::getOrderID() {
-
     return orderID;
 }
 
+// calculate total cost (food + delivery)
 double Order::calculateTotalFee() {
-
     return foodPrice +
            driver->calcDeliveryFee(distance);
 }
 
+// cancel order
 void Order::cancelOrder() {
 
     orderStatus = "Cancelled";
 
+    // make driver available again
     if(driver != NULL)
         driver->setAvailability(true);
 }
 
+// display all order details
 void Order::displayOrder() {
 
     cout << "\n========== ORDER DETAILS ==========\n";
 
     cout << "Order ID : " << orderID << endl;
-
     cout << "Item : " << itemName << endl;
 
     cout << "Customer : "
@@ -109,10 +113,10 @@ void Order::displayOrder() {
          << driver->getESTtime(distance)
          << " minutes" << endl;
 
-    cout << "Payment : "
+    cout << "Payment Amount : "
          << payment->getAmount() << endl;
 
-    cout << "Status : "
+    cout << "Order Status : "
          << orderStatus << endl;
 
     cout << "==================================\n";
