@@ -1,47 +1,54 @@
-#ifndef DRIVER_H
-#define DRIVER_H
+#ifndef UNTITLED_ORDER_H
+#define UNTITLED_ORDER_H
 
 #include <iostream>
 #include <string>
 
+#include "customer.h"
+#include "Restaurant.h"
+#include "Driver.h"
+#include "Payment.h"
+
 using namespace std;
 
-class Driver {
+class Order {
 
-protected:
+private:
 
-    int DriverID;
-    string DriverName;
-    int DriverPhoneNumber;
-    string vehicleNumber;
+    int orderID;
+    string orderStatus;
 
-    bool isAvailable;
-    double earnings;
+    string itemName;
+
+    double distance;
+    double foodPrice;
+
+    Customer* customer;
+    Restaurant* restaurant;
+    Driver* driver;
+    Payment* payment;
+
+    static int nextID;
 
 public:
 
-    Driver();
+    Order();
 
-    Driver(int ID,string n,int p,
-           string vn,bool isav,double e=0.0);
+    Order(Customer* c , Restaurant* r ,
+          Driver* d , Payment* p ,
+          double dis, double food, string item);
 
-    virtual ~Driver();
+    void setStatus(string s);
+    string getStatus();
 
-    virtual double calcDeliveryFee(double distance)=0;
+    int getOrderID();
 
-    virtual double getESTtime(double distance)=0;
+    double calculateTotalFee();
 
-    void setAvailability(bool a);
+    void cancelOrder();
 
-    bool getAvailability();
+    void displayOrder();
 
-    string getName();
-
-    double getEarnings();
-
-    void addEarnings(double amount);
-
-    void showDetails();
 };
 
 #endif
