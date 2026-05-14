@@ -47,8 +47,8 @@ void BikeDriver::showDetails() {
     cout<<"Maximum load of of bike: "<<getMaxLoad()<<"\n";
     cout<<"Bike model: "<<getBikeModel()<<"\n";
     cout<<"Plate number -> "<<getPlateNumber()<<"\n";
-    cout<<"Delivery fee is -> "<<calcDeliveryFee()<<"\n";
-    cout<<"Estimated time for delivery -> "<<getESTtime()<<"\n";
+   cout<<"Delivery fee is -> "<<calcDeliveryFee(10)<<"\n";
+cout<<"Estimated time for delivery -> "<<getESTtime(10)<<"\n";
     
     
 }
