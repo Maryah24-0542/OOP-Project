@@ -43,6 +43,8 @@ public:
     void showDetails();
 
     int assignOrder(int orderID);
-
+void setAvailability(bool a){
+    isAvailable = a;
+}
 
 };
