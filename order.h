@@ -11,51 +11,59 @@
 
 using namespace std;
 
-
 class Order {
 
 private:
 
-    int orderID;              // unique id for each order
-    string status;            // order status (Preparing, Delivered, Cancelled)
+    int orderID;   // unique ID for each order (auto generated)
 
-    string itemName;          // food item name
-    string orderTime;         // time of order
-    string paymentStatus;     // payment status
+    string status; // shows current order status:
+                   // Preparing, On The Way, Delivered, Cancelled
 
-    double distance;          // delivery distance
-    double foodPrice;         // price of food
+    string itemName; // name of the food item ordered (e.g. Burger)
 
-    // links to other classes (relationships)
-    Customer* customer;
+    string orderTime; // time when order was created
+
+    string paymentStatus; // shows payment state:
+                           // Pending, Paid, Failed
+
+    double distance;  // distance between restaurant and customer (km)
+
+    double foodPrice; // price of the food item
+
+    // These are pointers because Order is connected to other classes
+    // It does NOT copy the objects, it just links to them
+    Customer* customer;      
     Restaurant* restaurant;
     Driver* driver;
     Payment* payment;
 
-    static int nextID;        // auto increment ID
+    static int nextID; // used to automatically generate order IDs
 
 public:
 
-    Order(); // default constructor
+    Order(); // default constructor (empty order)
 
+    // main constructor used when creating a real order
     Order(Customer* c , Restaurant* r ,
           Driver* d , Payment* p ,
           double dis, double food, string item);
 
-    void setStatus(string s);     // change order status
-    string getStatus();           // get order status
+    void setStatus(string s); // change order status
 
-    int getOrderID();             // get order ID
+    string getStatus(); // return current status
 
-    void assignDriver(Driver* d); // assign driver to order
+    int getOrderID(); // return order ID
 
-    double calculateTotalFee();   // calculate total price
+    void assignDriver(Driver* d); // assign or change driver
 
-    void cancelOrder();           // cancel order
+    double calculateTotalFee(); // calculate total cost (food + delivery)
 
-    bool isDelivered();           // check if delivered
+    void cancelOrder(); // cancel the order and free driver
 
-    void displayOrder();          // show order details
+    bool isDelivered(); // check if order is delivered
+
+    void displayOrder(); // print all order details on screen
 };
 
 #endif
