@@ -8,12 +8,7 @@ void Menu::addItem(string n, double p){
         itemPrices.push_back(p); //adds the pricr to the end of the prices list
         
 }
- //  Validate item exists in Restaurant menu
-   bool Menu::hasItem(string name) const {
-          for (int i = 0; i < itemNames.size(); i++)
-           if (itemNames[i] == name) return true;
-          return false;
-      }
+ 
     
       double Menu::getItemPrice(string name) const {
         for (int i = 0; i < itemNames.size(); i++)
