@@ -1,19 +1,21 @@
 #include "Order.h"
 
-int Order::nextID = 1000; // start order IDs from 1000
+int Order::nextID = 1000;
 
 // default constructor
 Order::Order() {
 
-    orderID = ++nextID; // generate new ID
+    orderID = ++nextID;
 
-    orderStatus = "Preparing"; // default status
+    status = "Preparing";
+    paymentStatus = "Pending";
 
     itemName = "";
+    orderTime = "Unknown";
+
     distance = 0;
     foodPrice = 0;
 
-    // initialize pointers to NULL (no data yet)
     customer = NULL;
     restaurant = NULL;
     driver = NULL;
@@ -25,45 +27,50 @@ Order::Order(Customer* c , Restaurant* r ,
              Driver* d , Payment* p ,
              double dis, double food, string item) {
 
-    orderID = ++nextID; // new ID
+    orderID = ++nextID;
 
-    customer = c;       // link customer
-    restaurant = r;     // link restaurant
-    driver = d;         // link driver
-    payment = p;        // link payment
+    customer = c;
+    restaurant = r;
+    driver = d;
+    payment = p;
 
-    distance = dis;     // set distance
-    foodPrice = food;   // set food price
-    itemName = item;    // set item name
+    distance = dis;
+    foodPrice = food;
+    itemName = item;
 
-    orderStatus = "Preparing"; // initial status
+    status = "Preparing";
+    paymentStatus = "Pending";
+    orderTime = "Now";
 
-    // make driver busy when assigned
     if(driver != NULL)
         driver->setAvailability(false);
 
-    // add order to customer's history
     if(customer != NULL)
         customer->PLaceOrder(this);
 }
 
-// change order status
+// change status
 void Order::setStatus(string s) {
-    orderStatus = s;
+    status = s;
 }
 
-// return order status
+// get status
 string Order::getStatus() {
-    return orderStatus;
+    return status;
 }
 
-// return order ID
-int Order::getOrderID() {
-    return orderID;
+// assign driver later
+void Order::assignDriver(Driver* d) {
+
+    driver = d;
+
+    if(driver != NULL)
+        driver->setAvailability(false);
 }
 
-// calculate total cost (food + delivery)
+// calculate total price
 double Order::calculateTotalFee() {
+
     return foodPrice +
            driver->calcDeliveryFee(distance);
 }
@@ -71,20 +78,29 @@ double Order::calculateTotalFee() {
 // cancel order
 void Order::cancelOrder() {
 
-    orderStatus = "Cancelled";
+    status = "Cancelled";
+    paymentStatus = "Failed";
 
-    // make driver available again
     if(driver != NULL)
         driver->setAvailability(true);
 }
 
-// display all order details
+// check if delivered
+bool Order::isDelivered() {
+
+    return status == "Delivered";
+}
+
+// display order details
 void Order::displayOrder() {
 
     cout << "\n========== ORDER DETAILS ==========\n";
 
     cout << "Order ID : " << orderID << endl;
+
     cout << "Item : " << itemName << endl;
+
+    cout << "Order Time : " << orderTime << endl;
 
     cout << "Customer : "
          << customer->getName() << endl;
@@ -109,15 +125,11 @@ void Order::displayOrder() {
          << calculateTotalFee()
          << " OMR" << endl;
 
-    cout << "Estimated Time : "
-         << driver->getESTtime(distance)
-         << " minutes" << endl;
-
-    cout << "Payment Amount : "
-         << payment->getAmount() << endl;
+    cout << "Payment Status : "
+         << paymentStatus << endl;
 
     cout << "Order Status : "
-         << orderStatus << endl;
+         << status << endl;
 
     cout << "==================================\n";
 }
