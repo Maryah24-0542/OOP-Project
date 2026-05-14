@@ -23,6 +23,6 @@ class Restaurant{
         string getCusine() const;
         string getAddress() const;
         string getId() const;
-Menu& getMenu() { return menu; }
+
 };
 
