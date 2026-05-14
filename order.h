@@ -16,44 +16,61 @@ class Order {
 
 private:
 
-    int orderID;          // unique ID for each order
-    string itemName;      // food item name
+    int orderID;        // unique ID for each order
+    string itemName;    // food item name
+    string orderTime;   // time when order is created
 
-    double distance;      // delivery distance
-    double foodPrice;     // price of food
+    double distance;    // delivery distance in km
+    double foodPrice;   // price of the food
 
-    // ORDER STATUS SYSTEM:
+    // Order status system:
     // 0 = Preparing
     // 1 = On The Way
     // 2 = Delivered
     // -1 = Cancelled
     int status;
 
-    // connections with other classes (relationships)
+    string paymentStatus; // shows payment state (Pending / Paid / Failed)
+
+    // pointers (relationships between classes)
     Customer* customer;
     Restaurant* restaurant;
     Driver* driver;
     Payment* payment;
 
-    static int nextID;    // auto generate order IDs
+    static int nextID; // auto-generated order IDs
 
 public:
 
-    Order();  // default constructor
+    Order(); // default constructor
 
+    // main constructor to create full order
     Order(Customer* c, Restaurant* r, Driver* d, Payment* p,
-          double dis, double food, string item);
+          double dis, double food, string item, string time);
 
-    void nextStatus();        // move order to next stage
-    void cancelOrder();       // cancel the order
+    // move order from Preparing → On The Way
+    void startDelivery();
 
-    string getStatus();       // convert status to text
+    // move order from On The Way → Delivered
+    void deliverOrder();
 
-    bool isDelivered();       // check if delivered
+    // cancel order safely
+    void cancelOrder();
 
-    double calculateTotalFee(); // total price
+    // return order status as text
+    string getStatus();
 
-    void displayOrder();      // print order info
+    // check if order is delivered
+    bool isDelivered();
+
+    // check if order is cancelled
+    bool isCancelled();
+
+    // calculate total cost (food + delivery fee)
+    double calculateTotalFee();
+
+    // display full order information
+    void displayOrder();
 };
 
 #endif
