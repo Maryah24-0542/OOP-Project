@@ -11,65 +11,102 @@
 
 using namespace std;
 
-
 class Order {
 
 private:
 
-    int orderID;        // unique ID for each order
-    string itemName;    // food item name
-    string orderTime;   // time when order is created
+    int orderID;              // unique ID for each order
+    string itemName;          // food item name
+    string orderTime;         // time of order
 
-    double distance;    // delivery distance in km
-    double foodPrice;   // price of the food
+    double distance;          // delivery distance
+    double foodPrice;         // food price
 
-    // Order status system:
+    // status system:
     // 0 = Preparing
     // 1 = On The Way
     // 2 = Delivered
     // -1 = Cancelled
     int status;
 
-    string paymentStatus; // shows payment state (Pending / Paid / Failed)
+    string paymentStatus;
 
-    // pointers (relationships between classes)
+    // relationships with other classes
     Customer* customer;
     Restaurant* restaurant;
     Driver* driver;
     Payment* payment;
 
-    static int nextID; // auto-generated order IDs
+    static int nextID;
 
 public:
 
-    Order(); // default constructor
+    // constructors
+    Order();
 
-    // main constructor to create full order
     Order(Customer* c, Restaurant* r, Driver* d, Payment* p,
           double dis, double food, string item, string time);
 
-    // move order from Preparing → On The Way
+    // ================= SETTERS =================
+
+    void setItemName(string item);
+
+    void setOrderTime(string time);
+
+    void setDistance(double dis);
+
+    void setFoodPrice(double price);
+
+    void setPaymentStatus(string status);
+
+    void setCustomer(Customer* c);
+
+    void setRestaurant(Restaurant* r);
+
+    void setDriver(Driver* d);
+
+    void setPayment(Payment* p);
+
+    // ================= GETTERS =================
+
+    int getOrderID();
+
+    string getItemName();
+
+    string getOrderTime();
+
+    double getDistance();
+
+    double getFoodPrice();
+
+    int getStatusNumber();
+
+    string getPaymentStatus();
+
+    Customer* getCustomer();
+
+    Restaurant* getRestaurant();
+
+    Driver* getDriver();
+
+    Payment* getPayment();
+
+    // ================= ORDER FUNCTIONS =================
+
     void startDelivery();
 
-    // move order from On The Way → Delivered
     void deliverOrder();
 
-    // cancel order safely
     void cancelOrder();
 
-    // return order status as text
     string getStatus();
 
-    // check if order is delivered
     bool isDelivered();
 
-    // check if order is cancelled
     bool isCancelled();
 
-    // calculate total cost (food + delivery fee)
     double calculateTotalFee();
 
-    // display full order information
     void displayOrder();
 };
 
