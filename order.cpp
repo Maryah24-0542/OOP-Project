@@ -1,7 +1,8 @@
 #include "Order.h"
+#include <iomanip>
+#include <sstream>
 
-// static variable
-int Order::nextID = 1000; //start order IDs at 1000
+
 
 // ================= DEFAULT CONSTRUCTOR =================
 
@@ -122,6 +123,9 @@ int Order::getOrderID() {
     return orderID;
 }
 
+string Order::getFormattedOrderID() {   
+}
+
 string Order::getItemName() {
 
     return itemName;
@@ -172,7 +176,7 @@ Payment* Order::getPayment() {
     return payment;
 }
 
-// ================= ORDER STATUS FUNCTIONS =================
+// ================= ORDER FUNCTIONS =================
 
 // Preparing → On The Way
 void Order::startDelivery() {
