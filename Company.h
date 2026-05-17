@@ -1,6 +1,6 @@
 #ifndef COMPANY_H
 #define COMPANY_H
 class Company {
-//hello
+//hello there
 };
 #endif //COMPANY_H
