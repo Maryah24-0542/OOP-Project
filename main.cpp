@@ -3,10 +3,5 @@ using namespace std;
 
 int main() {
     cout << "Hiii";
-    cout << "changes";
-    cout << "changes from git";
-    cout << "changes from clion again";
-    cout << "changes from github again";
-
     return 0;
 }
