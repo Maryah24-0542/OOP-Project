@@ -71,6 +71,8 @@ public:
 
     int getOrderID();
 
+    string getFormattedOrderID();
+
     string getItemName();
 
     string getOrderTime();
