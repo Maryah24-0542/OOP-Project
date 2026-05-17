@@ -1,7 +1,8 @@
 #include "Order.h"
+#include <iomanip>
+#include <sstream>
 
-// static variable
-int Order::nextID = 1000; //start order IDs at 1000
+
 
 // ================= DEFAULT CONSTRUCTOR =================
 
@@ -120,6 +121,21 @@ void Order::setPayment(Payment* p) {
 int Order::getOrderID() {
 
     return orderID;
+}
+
+string Order::getFormattedOrderID() {
+
+    stringstream ss;
+    
+     // add prefix "O-"
+    // setw(4) makes ID width 4 digits
+    // setfill('0') fills empty spaces with zeros
+    ss << "O-"
+       << setw(4)   
+       << setfill('0')
+       << orderID;
+
+    return ss.str();
 }
 
 string Order::getItemName() {
