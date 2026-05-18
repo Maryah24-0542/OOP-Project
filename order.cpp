@@ -59,11 +59,17 @@ Order::Order(Customer* c, Restaurant* r, Driver* d, Payment* p,
     paymentStatus = "Pending";
 
     // make driver busy
+// when the order is created, the assigned driver becomes unavailable
+// because they are currently delivering this order
     if(driver != NULL)
 
         driver->setAvailability(false);
 
-    // save order in customer history
+    
+
+  // save order in customer history
+// add this order to the customer's previous orders list
+// so the customer can view their order history later
     if(customer != NULL)
 
         customer->PLaceOrder(this);
@@ -96,6 +102,9 @@ void Order::setPaymentStatus(string statusText) {
     paymentStatus = statusText;
 }
 
+
+// link the customer object with this order
+// so this order belongs to that customer
 void Order::setCustomer(Customer* c) {
 
     customer = c;
@@ -110,7 +119,7 @@ void Order::setDriver(Driver* d) {
 
     driver = d;
 }
-
+// update payment status (Paid / Failed / Pending)
 void Order::setPayment(Payment* p) {
 
     payment = p;
