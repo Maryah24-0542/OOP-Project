@@ -16,11 +16,12 @@ class Order {
 private:
 
     int orderID;              // unique ID for each order
-    string itemName;          // food item name
     string orderTime;         // time of order
 
     double distance;          // delivery distance
-    double foodPrice;         // food price
+    vector<string> itemNames;   // stores the names of all food items added to the order
+    double foodPrice;           // stores the total accumulated price of all selected food items
+
 
     // status system:
     // 0 = Preparing
@@ -95,21 +96,44 @@ public:
 
     // ================= ORDER FUNCTIONS =================
 
-    void startDelivery();
 
-    void deliverOrder();
+// change order status from Preparing to On The Way
+void startDelivery();
 
-    void cancelOrder();
+// change order status from On The Way to Delivered
+void deliverOrder();
 
-    string getStatus();
+// cancel the order if it has not been delivered yet
+// also marks payment as failed
+// and makes the driver available again
+void cancelOrder();
 
-    bool isDelivered();
+// return the current order status as text
+// (Preparing / On The Way / Delivered / Cancelled)
+string getStatus();
 
-    bool isCancelled();
+// check if the order has been delivered
+bool isDelivered();
 
-    double calculateTotalFee();
+// check if the order has been cancelled
+bool isCancelled();
 
-    void displayOrder();
-};
+// calculate the final total price of the order
+// by adding food price and delivery fee
+double calculateTotalFee();
+
+// display all order details including
+// customer, restaurant, driver, prices, and status
+void displayOrder();
+
+// adds a food item to the order using its item ID
+// retrieves the item name and price from the restaurant menu
+// then stores the name and updates the total food price
+void addItemToOrder(int itemID);
+
+// calculates the final total fee of the order
+// includes the total food price plus delivery fee (if driver is assigned)
+double calculateTotalFee();
+
 
 #endif
