@@ -13,6 +13,13 @@ Restaurant::Restaurant(string n,string co, string adr):name(n),cuisine(co),addre
 }
 
 
+// returns the restaurant's menu object
+// allows access to all menu items (names and prices)
+Menu Restaurant::getMenu() const {
+    return menu;
+}
+
+
 }
 void Restaurant::display() const{
         cout<<"======================================="<<endl;
