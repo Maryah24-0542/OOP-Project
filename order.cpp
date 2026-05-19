@@ -119,6 +119,21 @@ string Order::getStatus() {
     return "Cancelled";
 }
 
+
+// returns a formatted order ID in a readable style (e.g., O-0001)
+string Order::getFormattedOrderID() {
+
+    // create string stream to format the ID
+    stringstream ss;
+
+    // format ID as O-0001, O-0002, etc.
+    ss << "O-" << setfill('0') << setw(4) << orderID;
+
+    // return the formatted string
+    return ss.str();
+}
+
+
 // ================= ADD ITEM TO ORDER =================
 // adds food item from restaurant menu using item ID
 void Order::addItemToOrder(int itemID) {
@@ -205,7 +220,7 @@ void Order::displayOrder() {
 
     cout << "\n===== ORDER DETAILS =====\n";
 
-    cout << "Order ID: " << orderID << endl;
+    cout << "Order ID: " << getFormattedOrderID() << endl;
 
     cout << "Items:\n";
 
