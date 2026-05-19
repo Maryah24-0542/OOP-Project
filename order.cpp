@@ -165,6 +165,7 @@ string Order::getPaymentStatus() {
     return paymentStatus;
 }
 
+
 Customer* Order::getCustomer() {
 
     return customer;
@@ -259,6 +260,41 @@ double Order::calculateTotalFee() {
 
     return foodPrice + driver->calcDeliveryFee(distance);
 }
+
+
+// ================= ADD ITEM (MAIN FEATURE) ==============================
+void Order::addItemToOrder(int itemID) {
+
+    // check if a restaurant is assigned to this order
+    if (restaurant == NULL) {
+        cout << "No restaurant assigned to order!\n";
+        return;
+    }
+
+    // retrieve the menu from the restaurant
+    Menu menu = restaurant->getMenu();
+
+    // check if the selected item ID is valid in the menu
+    if (menu.isItemValid(itemID)) {
+
+        // get item name and price from the menu
+        string name = menu.getItemName(itemID);
+        double price = menu.getItemPrice(itemID);
+
+        // add item name to the order list
+        itemNames.push_back(name);
+
+        // update total food price
+        foodPrice += price;
+
+        cout << "Added: " << name << " | " << price << " OMR\n";
+    }
+    else {
+        // handle invalid item selection
+        cout << "Invalid item ID!\n";
+    }
+}
+
 
 // ================= DISPLAY FUNCTION =================
 
