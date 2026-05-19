@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
 
 #include "Customer.h"
 #include "Restaurant.h"
@@ -15,125 +16,85 @@ class Order {
 
 private:
 
-    int orderID;              // unique ID for each order
-    string orderTime;         // time of order
+    int orderID;   // unique identifier for each order
 
-    double distance;          // delivery distance
-    vector<string> itemNames;   // stores the names of all food items added to the order
-    double foodPrice;           // stores the total accumulated price of all selected food items
+    // structure representing a single food item in the order
+    struct OrderItem {
+        string name;     // name of the food item
+        double price;    // price of one unit
+        int quantity;    // number of times the item is ordered
+    };
 
+    vector<OrderItem> items;  // stores all items in the order (cart system)
+    double foodPrice;         // total price of all food items in the order
 
-    // status system:
-    // 0 = Preparing
-    // 1 = On The Way
-    // 2 = Delivered
-    // -1 = Cancelled
-    int status;
+    string orderTime;         // time when the order was placed
+    double distance;          // delivery distance in kilometers
 
-    string paymentStatus;
+    int status;               // order status (0=Preparing, 1=On The Way, 2=Delivered, -1=Cancelled)
+    string paymentStatus;     // payment status (Pending / Paid / Failed)
 
-    // relationships with other classes
-    Customer* customer;
-    Restaurant* restaurant;
-    Driver* driver;
-    Payment* payment;
+    // pointers to related classes (associations)
+    Customer* customer;      // customer who placed the order
+    Restaurant* restaurant;  // restaurant fulfilling the order
+    Driver* driver;          // delivery driver assigned
+    Payment* payment;        // payment information
 
-    static int nextID;
+    static int nextID;       // used to generate unique order IDs
 
 public:
 
-    // constructors
+    // ================= CONSTRUCTORS =================
+
     Order();
 
     Order(Customer* c, Restaurant* r, Driver* d, Payment* p,
-          double dis, double food, string item, string time);
+          double dis, string time);
 
     // ================= SETTERS =================
 
-    void setItemName(string item);
+    void setOrderTime(string time);           // set order time
+    void setDistance(double dis);             // set delivery distance
+    void setFoodPrice(double price);          // set total food price manually
+    void setPaymentStatus(string status);     // update payment status
 
-    void setOrderTime(string time);
-
-    void setDistance(double dis);
-
-    void setFoodPrice(double price);
-
-    void setPaymentStatus(string status);
-
-    void setCustomer(Customer* c);
-
-    void setRestaurant(Restaurant* r);
-
-    void setDriver(Driver* d);
-
-    void setPayment(Payment* p);
+    void setCustomer(Customer* c);            // assign customer
+    void setRestaurant(Restaurant* r);        // assign restaurant
+    void setDriver(Driver* d);                // assign driver
+    void setPayment(Payment* p);              // assign payment object
 
     // ================= GETTERS =================
 
-    int getOrderID();
+    int getOrderID();                         // return order ID
+    string getFormattedOrderID();             // return formatted order ID
 
-    string getFormattedOrderID();
+    string getOrderTime();                    // return order time
+    double getDistance();                     // return delivery distance
+    double getFoodPrice();                    // return total food price
+    int getStatusNumber();                    // return numeric status
+    string getPaymentStatus();                // return payment status
 
-    string getItemName();
-
-    string getOrderTime();
-
-    double getDistance();
-
-    double getFoodPrice();
-
-    int getStatusNumber();
-
-    string getPaymentStatus();
-
-    Customer* getCustomer();
-
-    Restaurant* getRestaurant();
-
-    Driver* getDriver();
-
-    Payment* getPayment();
+    Customer* getCustomer();                  // get customer object
+    Restaurant* getRestaurant();              // get restaurant object
+    Driver* getDriver();                      // get driver object
+    Payment* getPayment();                    // get payment object
 
     // ================= ORDER FUNCTIONS =================
 
+    void startDelivery();                     // change status: Preparing → On The Way
+    void deliverOrder();                      // change status: On The Way → Delivered
+    void cancelOrder();                       // cancel order and update payment status
 
-// change order status from Preparing to On The Way
-void startDelivery();
+    string getStatus();                       // return status as text
+    bool isDelivered();                       // check if order is delivered
+    bool isCancelled();                       // check if order is cancelled
 
-// change order status from On The Way to Delivered
-void deliverOrder();
+    double calculateTotalFee();               // calculate total (food + delivery fee)
 
-// cancel the order if it has not been delivered yet
-// also marks payment as failed
-// and makes the driver available again
-void cancelOrder();
+    void displayOrder();                      // display full order details
 
-// return the current order status as text
-// (Preparing / On The Way / Delivered / Cancelled)
-string getStatus();
+    void addItemToOrder(int itemID);          // add item from menu using its ID
 
-// check if the order has been delivered
-bool isDelivered();
-
-// check if the order has been cancelled
-bool isCancelled();
-
-// calculate the final total price of the order
-// by adding food price and delivery fee
-double calculateTotalFee();
-
-// display all order details including
-// customer, restaurant, driver, prices, and status
-void displayOrder();
-
-// adds a food item to the order using its item ID
-// retrieves the item name and price from the restaurant menu
-// then stores the name and updates the total food price
-void addItemToOrder(int itemID);
-
-// calculates the final total fee of the order
-// includes the total food price plus delivery fee (if driver is assigned)
-double calculateTotalFee();
-
+};
 
 #endif
