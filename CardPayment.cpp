@@ -130,7 +130,7 @@ bool CardPayment::processPayment() { //method: process the payment (creates the 
     cout << "Card Number: ****" << cardLastFour << "\n"; //print masked card number
     cout << "Cardholder: " << cardholderName << "\n"; //print cardholder name
     cout << "Expiry Date: " << expiryDate << "\n"; //print expiry date
-    cout << "Amount Charged: $" << getAmount() << "\n"; //print amount
+    cout << "Amount Charged: OMR" << getAmount() << "\n"; //print amount
     cout << "Status: " << getStatus() << "\n"; //print status
     cout << "====================================\n"; //print receipt footer
     
