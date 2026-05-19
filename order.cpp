@@ -13,17 +13,17 @@ Order::Order() {
 
     orderID = ++nextID;
 
-    // initialize cart and price
+    // initialize cart system
     foodPrice = 0;
-    items.clear();
+    items.clear(); // ensure cart starts empty
 
     orderTime = "Unknown";
     distance = 0;
 
-    status = 0;
+    status = 0; // 0 = Preparing
     paymentStatus = "Pending";
 
-    // initialize pointers
+    // initialize pointers to avoid dangling references
     customer = NULL;
     restaurant = NULL;
     driver = NULL;
@@ -31,7 +31,7 @@ Order::Order() {
 }
 
 // ================= MAIN CONSTRUCTOR =================
-// creates a fully linked order with customer, restaurant, driver, and payment
+// creates a complete order linked with all system entities
 Order::Order(Customer* c, Restaurant* r, Driver* d, Payment* p,
              double dis, string time) {
 
@@ -45,88 +45,57 @@ Order::Order(Customer* c, Restaurant* r, Driver* d, Payment* p,
     distance = dis;
     orderTime = time;
 
-    // initialize cart system
+    // initialize cart system for new order
     foodPrice = 0;
     items.clear();
 
     status = 0;
     paymentStatus = "Pending";
 
-    // mark driver as busy when assigned to this order
+    // mark driver as unavailable when assigned to this order
     if (driver != NULL)
         driver->setAvailability(false);
 
-    // store order in customer's order history
+    // add this order to customer's order history
     if (customer != NULL)
         customer->PLaceOrder(this);
 }
 
 // ================= SETTERS =================
-void Order::setOrderTime(string time) {
-    orderTime = time;
-}
-
-void Order::setDistance(double dis) {
-    distance = dis;
-}
+void Order::setOrderTime(string time) { orderTime = time; }
+void Order::setDistance(double dis) { distance = dis; }
 
 void Order::setPaymentStatus(string statusText) {
     paymentStatus = statusText;
 }
 
-void Order::setCustomer(Customer* c) {
-    customer = c;
-}
-
-void Order::setRestaurant(Restaurant* r) {
-    restaurant = r;
-}
-
-void Order::setDriver(Driver* d) {
-    driver = d;
-}
-
-void Order::setPayment(Payment* p) {
-    payment = p;
-}
+void Order::setCustomer(Customer* c) { customer = c; }
+void Order::setRestaurant(Restaurant* r) { restaurant = r; }
+void Order::setDriver(Driver* d) { driver = d; }
+void Order::setPayment(Payment* p) { payment = p; }
 
 // ================= GETTERS =================
-int Order::getOrderID() {
-    return orderID;
-}
-
-string Order::getOrderTime() {
-    return orderTime;
-}
-
-double Order::getDistance() {
-    return distance;
-}
-
-double Order::getFoodPrice() {
-    return foodPrice;
-}
-
-string Order::getPaymentStatus() {
-    return paymentStatus;
-}
+int Order::getOrderID() { return orderID; }
+string Order::getOrderTime() { return orderTime; }
+double Order::getDistance() { return distance; }
+double Order::getFoodPrice() { return foodPrice; }
+string Order::getPaymentStatus() { return paymentStatus; }
 
 // ================= ORDER STATUS FUNCTIONS =================
 
-// change status from Preparing → On The Way
+// move order from Preparing → On The Way
 void Order::startDelivery() {
     if (status == 0)
         status = 1;
 }
 
-// change status from On The Way → Delivered
+// move order from On The Way → Delivered
 void Order::deliverOrder() {
     if (status == 1)
         status = 2;
 }
 
-// cancel order if not delivered yet
-// also updates payment and frees driver
+// cancel order if not yet delivered
 void Order::cancelOrder() {
 
     if (status != 2) {
@@ -134,13 +103,13 @@ void Order::cancelOrder() {
         status = -1;
         paymentStatus = "Failed";
 
-        // make driver available again
+        // release driver back to available state
         if (driver != NULL)
             driver->setAvailability(true);
     }
 }
 
-// return order status as readable text
+// convert numeric status into readable text
 string Order::getStatus() {
 
     if (status == 0) return "Preparing";
@@ -151,35 +120,34 @@ string Order::getStatus() {
 }
 
 // ================= ADD ITEM TO ORDER =================
-// adds item from menu using item ID
-// updates cart and total price
+// adds food item from restaurant menu using item ID
 void Order::addItemToOrder(int itemID) {
 
-    // check if restaurant is assigned
+    // ensure order is linked to a restaurant
     if (restaurant == NULL) {
         cout << "No restaurant assigned!\n";
         return;
     }
 
-    // get menu from restaurant
+    // get menu safely from restaurant
     const Menu& menu = restaurant->getMenu();
 
-    // validate item ID
+    // validate item selection
     if (!menu.isItemValid(itemID)) {
         cout << "Invalid item ID!\n";
         return;
     }
 
-    // get item details from menu
+    // fetch item details from menu system
     string name = menu.getItemName(itemID);
     double price = menu.getItemPrice(itemID);
 
-    // check if item already exists in cart
+    // check if item already exists in cart (avoid duplicates)
     for (int i = 0; i < items.size(); i++) {
 
         if (items[i].name == name) {
 
-            // increase quantity if item already exists
+            // increase quantity instead of adding duplicate
             items[i].quantity++;
             foodPrice += price;
 
@@ -188,21 +156,41 @@ void Order::addItemToOrder(int itemID) {
         }
     }
 
-    // create new cart item
+    // create new item entry in cart
     OrderItem newItem;
     newItem.name = name;
     newItem.price = price;
     newItem.quantity = 1;
 
-    // add item to cart
     items.push_back(newItem);
     foodPrice += price;
 
     cout << "Added: " << name << " | " << price << " OMR\n";
 }
 
+// ================= PAYMENT PROCESS =================
+// handles payment using polymorphism (Card or Cash automatically)
+void Order::processPayment() {
+
+    if (payment == NULL) {
+        cout << "No payment method selected!\n";
+        return;
+    }
+
+    // set final calculated amount before payment processing
+    payment->setAmount(foodPrice);
+
+    // execute payment based on actual object type (CardPayment / CashPayment)
+    bool success = payment->processPayment();
+
+    if (success)
+        paymentStatus = "Completed";
+    else
+        paymentStatus = "Failed";
+}
+
 // ================= TOTAL CALCULATION =================
-// calculates final price including delivery fee
+// calculates final price including delivery fee if driver exists
 double Order::calculateTotalFee() {
 
     if (driver == NULL)
@@ -212,7 +200,7 @@ double Order::calculateTotalFee() {
 }
 
 // ================= DISPLAY ORDER =================
-// prints full order details including items, customer, and total
+// prints full order summary including items, status, and totals
 void Order::displayOrder() {
 
     cout << "\n===== ORDER DETAILS =====\n";
@@ -221,7 +209,7 @@ void Order::displayOrder() {
 
     cout << "Items:\n";
 
-    // display all items in cart
+    // loop through cart and display all items
     for (int i = 0; i < items.size(); i++) {
 
         cout << "- " << items[i].name
@@ -233,7 +221,7 @@ void Order::displayOrder() {
     cout << "Status: " << getStatus() << endl;
     cout << "Payment Status: " << paymentStatus << endl;
 
-    // display related objects if available
+    // display linked objects only if they exist
     if (customer != NULL)
         cout << "Customer: " << customer->getName() << endl;
 
