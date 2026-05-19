@@ -66,7 +66,7 @@ public:
     // ================= GETTERS =================
 
     int getOrderID();                         // return order ID
-    string getFormattedOrderID();             // return formatted order ID
+    string getFormattedOrderID();             // return formatted order ID(eg,0-0001)
 
     string getOrderTime();                    // return order time
     double getDistance();                     // return delivery distance
