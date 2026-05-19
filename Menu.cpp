@@ -6,16 +6,31 @@ Menu::Menu(){}
 void Menu::addItem(string n, double p){
         itemNames.push_back(n);//adds the name  to the end of the names list (the point of using push_back)
         itemPrices.push_back(p); //adds the pricr to the end of the prices list
-        
 }
- 
-    
-      double Menu::getItemPrice(string name) const {
-        for (int i = 0; i < itemNames.size(); i++)
-             if (itemNames[i] == name) return itemPrices[i];
-        return -1;
-      }
 void Menu::display() const{
-    for(int i=0;i<itemNames.size(); i++) //from the first to the last element in the name vector (the menu)
+    for(int i=0;i<itemNames.size(); i++)
         cout<<" - "<< itemNames[i]<<" : "<<itemPrices[i]<<" OMR"<<endl;
+
+    cout<<endl;
+}
+string Menu::getItemName(int ch) const {
+	return itemNames[ch-1]; //vectors start from 0 not 1 thats why -1
+}
+double Menu::getItemPrice(int ch) const {
+	return itemPrices[ch-1];
+}
+bool Menu::isItemValid(int ch) const {
+	return 1<=ch && ch<=itemNames.size(); //true if the number of item exist in the menu,else false
+}
+void Menu::setItemName(int ch, string nwName) {
+	if (isItemValid(ch))
+		itemNames[ch-1] = nwName;
+	else
+		cout<<"Invalid Item Number"<<endl;
+}
+void Menu::setItemPrice(int ch, double nwprice) {
+	if (isItemValid(ch))
+		itemPrices[ch-1] = nwprice;
+	else
+		cout<<"Invalid Item NUmber."<<endl;
 }
