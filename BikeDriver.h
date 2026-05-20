@@ -1,7 +1,6 @@
+#ifndef BIKEDRIVER_H
+#define BIKEDRIVER_H
 
-#ifndef UNTITLED_BIKEDRIVER_H
-#define UNTITLED_BIKEDRIVER_H
-#endif //UNTITLED_BIKEDRIVER_H
 
 #include "Driver.h"
 #include<iostream>
@@ -11,11 +10,11 @@ private:
     double baseFarePerKm;
     string bikeModel;
     double maxLoadKg;
-string plateNumber;
+    string plateNumber;
 
 public:
     BikeDriver(){}
-        BikeDriver(int ID,string n,int p,string vn,bool isav,double e,double b,string model,double max,string num)
+    BikeDriver(int ID,string n,int p,string vn,bool isav,double e,double b,string model,double max,string num)
         :Driver(ID,n,p,vn,isav,e),baseFarePerKm(b),bikeModel(model),maxLoadKg(max),plateNumber(num){}
     double calcDeliveryFee(double distance) override {
         return baseFarePerKm*distance;
@@ -33,5 +32,9 @@ public:
     double getMaxLoad();
     void setPlateNumber();
     string getPlateNumber();
- void showDetails(); 
+
+    void showDetails();
 };
+
+#endif
+
