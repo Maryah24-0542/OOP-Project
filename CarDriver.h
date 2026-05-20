@@ -1,8 +1,6 @@
+#ifndef CARDRIVER_H
+#define CARDRIVER_H
 
-#ifndef UNTITLED_CARDRIVER_H
-#define UNTITLED_CARDRIVER_H
-
-#endif //UNTITLED_CARDRIVER_H
 
 #include<iostream>
 using namespace std;
@@ -15,7 +13,7 @@ private:
     string plateNumber;
 public:
     CarDriver();
-       CarDriver(int ID,string n,int p,string vn,bool isav,double e,int st,string model,double base,string num)
+    CarDriver(int ID,string n,int p,string vn,bool isav,double e,int st,string model,double base,string num)
     : Driver(ID,n,p,vn,isav,e),seatingCapacity(st),carModel(model),baseFarePerKm(base),plateNumber(num){}
 
     double calcDeliveryFee(double distance) override {
@@ -36,3 +34,4 @@ public:
     void showDetails();
 
 };
+#endif
