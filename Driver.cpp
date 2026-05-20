@@ -64,4 +64,3 @@ void Driver::showDetails() {
     cout<<"Driver's earnings: "<<getEarnings()<<"\n";
     cout<<"Drive's availability :"<<(isAvailable? "Yes":"No")<<"\n";
 }
-
