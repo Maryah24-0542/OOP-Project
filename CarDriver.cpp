@@ -1,5 +1,6 @@
 #include "Driver.h"
 #include "CarDriver.h"
+# include "order.h"
 #include<iostream>
 using namespace std;
 
@@ -48,9 +49,11 @@ void CarDriver::showDetails() {
     cout<<"Car Model -> "<<getCarModel()<<"\n";
     cout<<"Seating capacity of the car -> "<<getSeatingCapacity()<<"\n";
     cout<<"Base fare per kilometer -> "<<getBaseFarePerKm()<<"\n";
+    cout<<"Delivery fee is -> "<<calcDeliveryFee(ord.getDistance())<<"\n";
+    cout<<"Estimated time for delivery -> "<<getESTtime(ord.getDistance())<<"\n";
     cout<<"Plate number -> "<<getPlateNumber()<<"\n";
-    cout<<"Delivery fee is -> "<<calcDeliveryFee(10)<<"\n";
-cout<<"Estimated time for delivery -> "<<getESTtime(10)<<"\n";
-    
+
+
+
 
 }
