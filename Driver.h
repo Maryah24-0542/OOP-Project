@@ -1,8 +1,8 @@
-
 #ifndef DRIVER_H
 #define DRIVER_H
+
 #include<iostream>
-#include<vector>
+
 #include<string>
 #include "order.h"
 
@@ -44,9 +44,7 @@ public:
 
     void setEarnings();
 
-    void setAvailability(bool a) {
-        isAvailable = a;
-    }
+    void setAvailability(bool a);
 
     int getDriverID();
 
@@ -60,6 +58,8 @@ public:
 
     void showDetails();
 
-    int assignOrder(int orderID);
+    bool getAvailability();
+
+  
 };
 #endif
