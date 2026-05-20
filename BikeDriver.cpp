@@ -1,5 +1,3 @@
-
-
 #include <iostream>
 using namespace std;
 #include "BikeDriver.h"
@@ -22,7 +20,6 @@ double BikeDriver::getBaseFarePerKm() {
     return baseFarePerKm;
 }
 
-
 void BikeDriver::setBikeModel() {
     cout<<"Enter Bike model : ";
     cin>>bikeModel;
@@ -43,13 +40,14 @@ string BikeDriver::getPlateNumber() {
 
 
 void BikeDriver::showDetails() {
-    cout<<"Base Fare per kilometer: "<<getBaseFarePerKm()<<"\n";
-    cout<<"Maximum load of of bike: "<<getMaxLoad()<<"\n";
-    cout<<"Bike model: "<<getBikeModel()<<"\n";
+    cout<<"Base Fare per kilometer -> "<<getBaseFarePerKm()<<"\n";
+    cout<<"Maximum load of of bike -> "<<getMaxLoad()<<"\n";
+    cout<<"Bike model -> "<<getBikeModel()<<"\n";
     cout<<"Plate number -> "<<getPlateNumber()<<"\n";
-   cout<<"Delivery fee is -> "<<calcDeliveryFee(10)<<"\n";
-cout<<"Estimated time for delivery -> "<<getESTtime(10)<<"\n";
-    
-    
+    cout<<"Delivery fee is -> "<<calcDeliveryFee(ord.getDistance())<<"\n";
+    cout<<"Estimated time for delivery -> "<<getESTtime(ord.getDistance())<<"\n";
+
 }
+
+
 
