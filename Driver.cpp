@@ -51,8 +51,12 @@ double Driver::getEarnings() {
     return earnings;
 }
 
-int Driver::assignOrder(int orderID) {
+void Driver::setAvailability(bool a) {
+    isAvailable = a;
+}
 
+bool Driver::getAvailability() {
+    return isAvailable;
 }
 
 
@@ -62,5 +66,5 @@ void Driver::showDetails() {
     cout<<"Driver's phone number: "<<getNumber()<<"\n";
     cout<<"Vehicle number: "<<getVehicleNumber()<<"\n";
     cout<<"Driver's earnings: "<<getEarnings()<<"\n";
-    cout<<"Drive's availability :"<<(isAvailable? "Yes":"No")<<"\n";
+    cout<<"Drive's availability :"<<getAvailability()<<"\n";
 }
