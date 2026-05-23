@@ -1,50 +1,63 @@
-# include"Driver.h"
-# include<iostream>
+#include "Driver.h"
+#include <bits/stdc++.h>
 using namespace std;
 
+int Driver::count = 1;
 
-Driver::Driver(){}
-Driver::~Driver(){}
+Driver::Driver() {
+    setDriverName();
+    setDriverPhone();
+    setPlateNumber();
+    setAvailability(true);
+    earnings = 0;
+    setDriverID();
+}
 
+Driver::~Driver() {
+}
 
 void Driver::setDriverID() {
-    cout<<"Enter your Driver ID:";
-    cin>>DriverID;
+    // create string stream to format the ID
+    stringstream ss;
+    // format ID as D-0001, D-0002, etc.
+    ss << "D-" << setfill('0') << setw(4) << count++;
+    // return the formatted string
+    driverID = ss.str();
 }
 
-int Driver::getDriverID() {
-    return DriverID;
+string Driver::getDriverID() {
+    return driverID;
 }
 
-void Driver::setName() {
-    cout<<"Enter Driver's name:";
-    cin>>DriverName;
+void Driver::setDriverName() {
+    cout << "Enter your name:";
+    cin >> driverName;
 }
 
-string Driver::getName() {
-    return DriverName;
-}
-void Driver::setNumber() {
-    cout<<"Enter Driver's phone number: ";
-    cin>>DriverPhoneNumber;
+string Driver::getDriverName() {
+    return driverName;
 }
 
-int Driver::getNumber() {
-    return DriverPhoneNumber;
+void Driver::setDriverPhone() {
+    cout << "Enter your phone number: ";
+    cin >> driverPhone;
 }
 
-void Driver::setVehicleNumber() {
-    cout<<"Enter vehicle number: ";
-    cin>>vehicleNumber;
+int Driver::getDriverPhone() {
+    return driverPhone;
 }
 
-string Driver::getVehicleNumber() {
-    return vehicleNumber;
+void Driver::setPlateNumber() {
+    cout << "Enter plate number: ";
+    cin >> plateNumber;
 }
 
-void Driver:: setEarnings() {
-    cout<<"Enter Driver's Earnings :";
-    cin>>earnings;
+string Driver::getPlateNumber() {
+    return plateNumber;
+}
+
+void Driver::addEarnings(double amount) {
+    earnings += amount;
 }
 
 double Driver::getEarnings() {
@@ -58,13 +71,15 @@ void Driver::setAvailability(bool a) {
 bool Driver::getAvailability() {
     return isAvailable;
 }
-
+void Driver::updateOrderStatus(Order *order) {
+    order->updateStatus();
+}
 
 void Driver::showDetails() {
-    cout<<"Driver's ID: "<<getDriverID()<<"\n";
-    cout<<"Driver's name: "<<getName()<<"\n";
-    cout<<"Driver's phone number: "<<getNumber()<<"\n";
-    cout<<"Vehicle number: "<<getVehicleNumber()<<"\n";
-    cout<<"Driver's earnings: "<<getEarnings()<<"\n";
-    cout<<"Drive's availability :"<<getAvailability()<<"\n";
+    cout << "Driver's ID: " << getDriverID() << "\n";
+    cout << "Driver's name: " << getDriverName() << "\n";
+    cout << "Driver's phone number: " << getDriverPhone() << "\n";
+    cout << "Driver's earnings: " << getEarnings() << "\n";
+    cout << "Drive's availability:" << getAvailability() << "\n";
+    cout << "Plate number: " << getPlateNumber() << "\n";
 }

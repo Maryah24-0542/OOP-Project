@@ -1,255 +1,144 @@
 #include "Order.h"
-#include <iostream>
-#include <iomanip>
-#include <sstream>
+#include <bits/stdc++.h>
 
 // ================= STATIC VARIABLE =================
 // used to generate unique IDs for each order
-int Order::nextID = 0;
+int Order::count = 1;
 
 // ================= DEFAULT CONSTRUCTOR =================
-// initializes an empty order with default values
-Order::Order() {
-
-    orderID = ++nextID;
-
+Order::Order(Customer *c, Restaurant *r) {
+    setOrderID();
     // initialize cart system
-    foodPrice = 0;
     items.clear(); // ensure cart starts empty
-
-    orderTime = "Unknown";
-    distance = 0;
-
-    status = 0; // 0 = Preparing
-    paymentStatus = "Pending";
-
+    status = "In cart"; // 0 = Cart
     // initialize pointers to avoid dangling references
-    customer = NULL;
-    restaurant = NULL;
-    driver = NULL;
-    payment = NULL;
-}
-
-// ================= MAIN CONSTRUCTOR =================
-// creates a complete order linked with all system entities
-Order::Order(Customer* c, Restaurant* r, Driver* d, Payment* p,
-             double dis, string time) {
-
-    orderID = ++nextID;
-
     customer = c;
     restaurant = r;
-    driver = d;
-    payment = p;
+    driver = nullptr;
+    payment = nullptr;
+}
 
-    distance = dis;
-    orderTime = time;
-
-    // initialize cart system for new order
-    foodPrice = 0;
-    items.clear();
-
-    status = 0;
-    paymentStatus = "Pending";
-
-    // mark driver as unavailable when assigned to this order
-    if (driver != NULL)
-        driver->setAvailability(false);
-
-    // add this order to customer's order history
-    if (customer != NULL)
-        customer->PLaceOrder(this);
+Order::~Order() {
+    cout << "Order deleted." << endl;
 }
 
 // ================= SETTERS =================
-void Order::setOrderTime(string time) { orderTime = time; }
-void Order::setDistance(double dis) { distance = dis; }
-
-void Order::setPaymentStatus(string statusText) {
-    paymentStatus = statusText;
+// returns a formatted order ID in a readable style (e.g., O-0001)
+void Order::setOrderID() {
+    // create string stream to format the ID
+    stringstream ss;
+    // format ID as O-0001, O-0002, etc.
+    ss << "O-" << setfill('0') << setw(4) << count++;
+    // return the formatted string
+    orderID = ss.str();
 }
 
-void Order::setCustomer(Customer* c) { customer = c; }
-void Order::setRestaurant(Restaurant* r) { restaurant = r; }
-void Order::setDriver(Driver* d) { driver = d; }
-void Order::setPayment(Payment* p) { payment = p; }
+void Order::setStatus(string s) { status = s; }
+void Order::setCustomer(Customer *c) { customer = c; }
+void Order::setRestaurant(Restaurant *r) { restaurant = r; }
+void Order::setDriver(Driver *d) { driver = d; }
+void Order::setPayment(Payment *p) { payment = p; }
 
 // ================= GETTERS =================
-int Order::getOrderID() { return orderID; }
-string Order::getOrderTime() { return orderTime; }
-double Order::getDistance() { return distance; }
-double Order::getFoodPrice() { return foodPrice; }
-string Order::getPaymentStatus() { return paymentStatus; }
-
+string Order::getOrderID() { return orderID; }
+string Order::getStatus() { return status; }
+Customer *Order::getCustomer() { return customer; }
+Restaurant *Order::getRestaurant() { return restaurant; }
+Driver *Order::getDriver() { return driver; }
+Payment *Order::getPayment() { return payment; }
 // ================= ORDER STATUS FUNCTIONS =================
 
-// move order from Preparing → On The Way
-void Order::startDelivery() {
-    if (status == 0)
-        status = 1;
-}
-
-// move order from On The Way → Delivered
-void Order::deliverOrder() {
-    if (status == 1)
-        status = 2;
+void Order::updateStatus() {
+    if (status == "In cart") status = "Preparing";
+    else if (status == "Preparing") status = "Ready for Pickup";
+    else if (status == "Ready for Pickup") status = "On The Way";
+    else if (status == "On The Way") {
+        status = "Delivered";
+        updatePayment();
+    }
 }
 
 // cancel order if not yet delivered
 void Order::cancelOrder() {
-
-    if (status != 2) {
-
-        status = -1;
-        paymentStatus = "Failed";
-
-        // release driver back to available state
-        if (driver != NULL)
-            driver->setAvailability(true);
+    if (status == "In cart") status = "Cancelled";
+    if (status == "Preparing") {
+        status = "Cancelled";
+        driver->setAvailability(true); // release driver back to available state
     }
+    cout << "Order cancelled successfully." << endl;
 }
-
-// convert numeric status into readable text
-string Order::getStatus() {
-
-    if (status == 0) return "Preparing";
-    if (status == 1) return "On The Way";
-    if (status == 2) return "Delivered";
-
-    return "Cancelled";
-}
-
-
-// returns a formatted order ID in a readable style (e.g., O-0001)
-string Order::getFormattedOrderID() {
-
-    // create string stream to format the ID
-    stringstream ss;
-
-    // format ID as O-0001, O-0002, etc.
-    ss << "O-" << setfill('0') << setw(4) << orderID;
-
-    // return the formatted string
-    return ss.str();
-}
-
 
 // ================= ADD ITEM TO ORDER =================
 // adds food item from restaurant menu using item ID
-void Order::addItemToOrder(int itemID) {
-
-    // ensure order is linked to a restaurant
-    if (restaurant == NULL) {
-        cout << "No restaurant assigned!\n";
-        return;
-    }
-
-    // get menu safely from restaurant
-    const Menu& menu = restaurant->getMenu();
-
-    // validate item selection
-    if (!menu.isItemValid(itemID)) {
+void Order::addItemToOrder(int itemNumber) {
+    const Menu &menu = restaurant->getMenu(); // get menu safely from restaurant
+    if (!menu.isItemValid(itemNumber)) {
+        // validate item selection
         cout << "Invalid item ID!\n";
         return;
     }
-
+    OrderItem newItem; // create new item entry in cart
     // fetch item details from menu system
-    string name = menu.getItemName(itemID);
-    double price = menu.getItemPrice(itemID);
-
-    // check if item already exists in cart (avoid duplicates)
-    for (int i = 0; i < items.size(); i++) {
-
-        if (items[i].name == name) {
-
-            // increase quantity instead of adding duplicate
-            items[i].quantity++;
-            foodPrice += price;
-
-            cout << "Increased quantity: " << name << "\n";
-            return;
-        }
-    }
-
-    // create new item entry in cart
-    OrderItem newItem;
-    newItem.name = name;
-    newItem.price = price;
-    newItem.quantity = 1;
-
+    newItem.name = menu.getItemName(itemNumber);
+    newItem.price = menu.getItemPrice(itemNumber);
+    cout << "Enter quantity: ";
+    cin >> newItem.quantity;
     items.push_back(newItem);
-    foodPrice += price;
-
-    cout << "Added: " << name << " | " << price << " OMR\n";
+    cout << "Added: " << newItem.name << " x" << newItem.quantity << " | " << newItem.price * newItem.quantity
+            << " OMR\n";
 }
 
 // ================= PAYMENT PROCESS =================
-// handles payment using polymorphism (Card or Cash automatically)
-void Order::processPayment() {
-
-    if (payment == NULL) {
-        cout << "No payment method selected!\n";
-        return;
-    }
-
-    // set final calculated amount before payment processing
-    payment->setAmount(foodPrice);
-
-    // execute payment based on actual object type (CardPayment / CashPayment)
-    bool success = payment->processPayment();
-
-    if (success)
-        paymentStatus = "Completed";
-    else
-        paymentStatus = "Failed";
+void Order::updatePayment() {
+    payment->setStatus("Completed");
 }
 
 // ================= TOTAL CALCULATION =================
 // calculates final price including delivery fee if driver exists
+double Order::calcFoodPrice() {
+    double foodPrice = 0;
+    for (OrderItem item: items) {
+        foodPrice += item.price * item.quantity;
+    }
+    return foodPrice;
+}
+
 double Order::calculateTotalFee() {
+    double total = calcFoodPrice() + driver->calcDeliveryFee(customer->getAddress(), restaurant->getAddress());
+    payment->setAmount(total);
+    return total;
+}
 
-    if (driver == NULL)
-        return foodPrice;
-
-    return foodPrice + driver->calcDeliveryFee(distance);
+double Order::calcOrderTime() {
+    double prepTime = restaurant->calcPrepTime(items.size());
+    double deliveryTime = driver->calcEstTime(customer->getAddress(), restaurant->getAddress());
+    return prepTime + deliveryTime;
 }
 
 // ================= DISPLAY ORDER =================
+
+void Order::checkoutDisplay() {
+    cout << "Order ID: " << getOrderID() << endl;
+    cout << "Customer: " << customer->getName() << ", ID: " << customer->getCustomerID() << endl;
+    cout << "Restaurant: " << restaurant->getName() << endl;
+    cout << "Items:\n";
+    for (int i = 0; i < items.size(); i++) {
+        cout << i + 1 << "- " << items[i].name
+                << " x" << items[i].quantity
+                << " | " << items[i].price * items[i].quantity << " OMR\n";
+    }
+    cout << "Food Price: " << calcFoodPrice() << " OMR\n";
+}
+
 // prints full order summary including items, status, and totals
 void Order::displayOrder() {
-
-    cout << "\n===== ORDER DETAILS =====\n";
-
-    cout << "Order ID: " << getFormattedOrderID() << endl;
-
-    cout << "Items:\n";
-
-    // loop through cart and display all items
-    for (int i = 0; i < items.size(); i++) {
-
-        cout << "- " << items[i].name
-             << " x" << items[i].quantity
-             << " | " << items[i].price << " OMR each\n";
-    }
-
-    cout << "Time: " << orderTime << endl;
-    cout << "Status: " << getStatus() << endl;
-    cout << "Payment Status: " << paymentStatus << endl;
-
-    // display linked objects only if they exist
-    if (customer != NULL)
-        cout << "Customer: " << customer->getName() << endl;
-
-    if (restaurant != NULL)
-        cout << "Restaurant: " << restaurant->getName() << endl;
-
-    if (driver != NULL)
-        cout << "Driver: " << driver->getName() << endl;
-
-    cout << "Distance: " << distance << " km" << endl;
-
-    cout << "Food Price: " << foodPrice << " OMR" << endl;
+    cout << "=== ORDER DETAILS ===\n";
+    checkoutDisplay();
+    cout << "Delivery Fee: " << driver->calcDeliveryFee(customer->getAddress(), restaurant->getAddress());
     cout << "Total Price: " << calculateTotalFee() << " OMR" << endl;
-
-    cout << "========================\n";
+    cout << "======================\n";
+    cout << "Estimated Time: " << calcOrderTime() << endl;
+    cout << "Order Status: " << getStatus() << endl;
+    cout << "Payment type: " << payment->getPaymentType() << ", status: " << payment->getStatus() << endl;
+    cout << "Driver: " << driver->getDriverName() << ", contact number: " << driver->getDriverPhone() << endl;
 }

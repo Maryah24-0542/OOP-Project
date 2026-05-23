@@ -1,40 +1,37 @@
 #ifndef BIKEDRIVER_H
 #define BIKEDRIVER_H
 
-
 #include "Driver.h"
-#include<iostream>
 using namespace std;
-class BikeDriver : public Driver{
-private:
+
+class BikeDriver : public Driver {
     double baseFarePerKm;
     string bikeModel;
     double maxLoadKg;
-    string plateNumber;
 
 public:
-    BikeDriver(){}
-    BikeDriver(int ID,string n,int p,string vn,bool isav,double e,double b,string model,double max,string num)
-        :Driver(ID,n,p,vn,isav,e),baseFarePerKm(b),bikeModel(model),maxLoadKg(max),plateNumber(num){}
-    double calcDeliveryFee(double distance) override {
-        return baseFarePerKm*distance;
-    }
+    BikeDriver();
 
-    double getESTtime(double distance) override {
-        return (distance/30)*60;    //30 km/h average
-    }
+    //driver functions
+    double calcDeliveryFee(string custAdd, string restAdd) override;
 
+    double calcEstTime(string custAdd, string restAdd) override;
+
+    void showDetails() override;
+
+    //setters
     void setBaseFarePerKm();
-    double getBaseFarePerKm();
-    void setBikeModel();
-    string getBikeModel();
-    void setMaxLoad();
-    double getMaxLoad();
-    void setPlateNumber();
-    string getPlateNumber();
 
-    void showDetails();
+    void setBikeModel();
+
+    void setMaxLoad();
+
+    //getters
+    double getBaseFarePerKm();
+
+    string getBikeModel();
+
+    double getMaxLoad();
 };
 
-#endif
-
+#endif //BIKEDRIVER_H

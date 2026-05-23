@@ -1,86 +1,67 @@
-# include "customer.h"
-# include<iostream>
-# include<iomanip>
+#include "customer.h"
+#include <iostream>
+#include <iomanip>
 #include <sstream>
 using namespace std;
 
+int Customer::count = 1;
 
-Customer::Customer() {}
-
-Customer::Customer( int phone, string name,string email,string address) {
-    PhoneNumber=phone;
-    Name=name;
-    Email=email;
-    Address=address;
+Customer::Customer() {
+    setName();
+    setPhone();
+    setEmail();
+    setAddress();
     stringstream ss;
-    ss<<"C-"<<setfill('0')<<setw(4)<<countID++; //total of 4 digits (including the number from count)...  i guess
-    CustomerID=ss.str(); //turn it into a string like "C-0001"
-
+    ss << "C-" << setfill('0') << setw(4) << count++; //total of 4 digits (including the number from count)
+    customerID = ss.str(); //turns it into a string like "C-0001"
+    cout << "Customer: " << name << " has been added, your ID: " << customerID << endl;
 }
-int Customer::countID=1;
 
 void Customer::setName() {
-    cout<<"Welcome , Please enter the following information !"<<endl;
-    cout<<"Enter your name: ";
-    cin>>Name;
-    cout<<endl;
-
+    cout << "Enter your name: ";
+    cin >> name;
 }
 
 string Customer::getName() {
-    return Name;
+    return name;
 }
 
 void Customer::setPhone() {
-    cout<<"Enter your phone number: ";
-    cin>>PhoneNumber;
-    cout<<endl;
-
+    cout << "Enter your phone number: ";
+    cin >> phoneNumber;
 }
 
 int Customer::getPhone() {
-    return PhoneNumber;
+    return phoneNumber;
 }
-
-
-
 
 void Customer::setEmail() {
-    cout<<"Enter your Email address: ";
-    cin>>Email;
-    cout<<endl;
+    cout << "Enter your email address: ";
+    cin >> email;
 }
+
 string Customer::getEmail() {
-    return Email;
+    return email;
 }
 
 void Customer::setAddress() {
-    cout<<"Enter your Address: ";
-    cin>>Address;
-    cout<<endl;
-
+    cout << "Enter delivery address: ";
+    cin >> address;
 }
 
 string Customer::getAddress() {
-    return Address;
+    return address;
 }
 
 string Customer::getCustomerID() {
-    return CustomerID;
+    return customerID;
 }
 
-
-
-void Customer::Display() {
-    cout<<"----------------------------------------\n";
-    cout<<"----------Customer Information----------\n";
-    cout<<"----------------------------------------\n";
-    cout<<endl;
-    cout<<"Name -> "<<getName()<<"\n";
-    cout<<"Phone number -> "<<getPhone()<<"\n";
-    cout<<"Email -> "<<getEmail()<<"\n";
-    cout<<"Address -> "<<getAddress()<<"\n";
-    cout<<"Customer ID -> "<<getCustomerID()<<"\n";
-
-
+void Customer::display() {
+    cout << "=== Customer Information ===\n";
+    cout << "Customer ID: " << getCustomerID() << "\n";
+    cout << "Name: " << getName() << "\n";
+    cout << "Phone number: " << getPhone() << "\n";
+    cout << "Email: " << getEmail() << "\n";
+    cout << "Address: " << getAddress() << "\n";
 }

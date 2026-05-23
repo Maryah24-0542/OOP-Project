@@ -1,18 +1,18 @@
 #include "Driver.h"
 #include "CarDriver.h"
-# include "order.h"
-#include<iostream>
+#include <iostream>
 using namespace std;
 
-
-
 CarDriver::CarDriver() {
-
+    setBaseFarePerKm();
+    setCarModel();
+    setSeatingCapacity();
+    cout << "Driver: " << driverName << " has been added, your ID: " << driverID << endl;
 }
 
 void CarDriver::setSeatingCapacity() {
-    cout<<"Enter seating capacity of car: ";
-    cin>>seatingCapacity;
+    cout << "Enter seating capacity of car: ";
+    cin >> seatingCapacity;
 }
 
 int CarDriver::getSeatingCapacity() {
@@ -20,8 +20,8 @@ int CarDriver::getSeatingCapacity() {
 }
 
 void CarDriver::setBaseFarePerKm() {
-    cout<<"Enter base fare per km :";
-    cin>>baseFarePerKm;
+    cout << "Enter base fare per km:";
+    cin >> baseFarePerKm;
 }
 
 double CarDriver::getBaseFarePerKm() {
@@ -29,31 +29,31 @@ double CarDriver::getBaseFarePerKm() {
 }
 
 void CarDriver::setCarModel() {
-    cout<<"Enter Car Model :";
-    cin>>carModel;
+    cout << "Enter Car Model:";
+    cin >> carModel;
 }
+
 string CarDriver::getCarModel() {
     return carModel;
 }
 
-void CarDriver::setPlateNumber() {
-    cout<<"Enter plate number : ";
-    cin>>plateNumber;
+
+double CarDriver::calcDeliveryFee(string custAdd, string restAdd) {
+    if (custAdd == restAdd) {
+        return 1.5;
+    }
+    return 2.3;
 }
 
-string CarDriver::getPlateNumber() {
-    return plateNumber;
+double CarDriver::calcEstTime(string custAdd, string restAdd) {
+    if (custAdd == restAdd) {
+        return 20;
+    }
+    return 30;
 }
-
 void CarDriver::showDetails() {
-    cout<<"Car Model -> "<<getCarModel()<<"\n";
-    cout<<"Seating capacity of the car -> "<<getSeatingCapacity()<<"\n";
-    cout<<"Base fare per kilometer -> "<<getBaseFarePerKm()<<"\n";
-    cout<<"Delivery fee is -> "<<calcDeliveryFee(ord.getDistance())<<"\n";
-    cout<<"Estimated time for delivery -> "<<getESTtime(ord.getDistance())<<"\n";
-    cout<<"Plate number -> "<<getPlateNumber()<<"\n";
-
-
-
-
+    Driver::showDetails();
+    cout << "Car Model -> " << getCarModel() << "\n";
+    cout << "Seating capacity of the car -> " << getSeatingCapacity() << "\n";
+    cout << "Base fare per kilometer -> " << getBaseFarePerKm() << "\n";
 }
