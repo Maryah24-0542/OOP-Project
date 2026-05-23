@@ -5,6 +5,7 @@
 using namespace std;
 
 class Payment {
+    static int count;
     string paymentID;
     double amount; //stores the payment amount (double so that it can store decimal numbers)
     string status; //stores payment status (pending or completed)

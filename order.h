@@ -5,9 +5,8 @@
 
 #include "Customer.h"
 #include "Restaurant.h"
-#include "Driver.h"
 #include "Payment.h"
-
+class Driver;
 using namespace std;
 
 class Order {

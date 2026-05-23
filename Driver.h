@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-#include "order.h"
+class Order;
 
 using namespace std;
 

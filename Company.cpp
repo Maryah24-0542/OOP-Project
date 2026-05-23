@@ -90,6 +90,7 @@ Order *Company::newOrder(Customer *c) {
 
 Driver *Company::assignDriver(Order *order) {
     //stopped here
+    return nullptr;
 }
 
 void Company::checkout(Order *order) {
