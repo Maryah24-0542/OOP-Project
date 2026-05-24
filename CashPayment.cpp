@@ -13,7 +13,7 @@ string CashPayment::getPaymentType() {
     return "Cash";
 }
 
-bool CashPayment::processPayment() {
+void CashPayment::paymentReciept() {
     //Method: process cash payment (creates order, status stays pending)
     cout << "========== CASH PAYMENT ==========\n"; //print header
     // Step 1: Status stays "Pending" (driver will confirm later)
@@ -26,5 +26,4 @@ bool CashPayment::processPayment() {
     cout << "Amount: " << getAmount() << " OMR\n"; //print amount
     cout << "Payment Status: " << getStatus() << " (waiting for driver confirmation)\n"; //print status
     cout << "=====================================\n"; //print receipt footer
-    return true;
 }

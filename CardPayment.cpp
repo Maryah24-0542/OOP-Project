@@ -110,7 +110,7 @@ void CardPayment::validateExpiryDate(string expiry) {
     expiryDate = expiry;
 }
 
-bool CardPayment::processPayment() {
+void CardPayment::paymentReciept() {
     //method: print receipt
     cout << "========== CARD PAYMENT ==========\n"; //print header
     cout << "Payment accepted!\n";
@@ -123,5 +123,4 @@ bool CardPayment::processPayment() {
     cout << "Amount Charged: " << getAmount() << " OMR\n"; //print amount
     cout << "Payment Status: " << getStatus() << "\n"; //print status
     cout << "=====================================\n"; //print receipt footer
-    return true;
 }

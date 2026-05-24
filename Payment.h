@@ -22,7 +22,7 @@ public:
     string getPaymentID(); //getter, returns the payment ID
     string getStatus(); //getter, returns the payment status
 
-    virtual bool processPayment() = 0; //subclasses must override to process the payment
+    virtual void paymentReciept() = 0; //subclasses must override to process the payment
     virtual string getPaymentType() = 0; //subclasses must override to return Card or Cash payment
 };
 #endif //PAYMENT_H

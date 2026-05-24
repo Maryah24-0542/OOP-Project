@@ -38,7 +38,7 @@ public:
     void validateCardNumber(string cardNum); //checks if card number is valid
     void validateExpiryDate(string expiry); //checks if card expiry date is valid
 
-    bool processPayment() override; //override: processes the payment
+    void paymentReciept() override; //override: processes the payment
     string getPaymentType() override; //override: returns "Card"
 };
 
