@@ -64,14 +64,18 @@ public:
     void updateStatus(); // change status: Preparing → On The Way
     void cancelOrder(); // cancel order and update payment status
     double calculateTotalFee(); // calculate total (food + delivery fee)
-    void displayOrder(); // display full order details
     void addItemToOrder(int itemID); // add item from menu using its ID
     void updatePayment();
 
     double calcOrderTime();
 
     double calcFoodPrice(); // return total food price
+
     void checkoutDisplay();
+
+    void customerDisplayOrder(); // display order details for customer view
+    void driverDisplayOrder(); // display order details for driver view
+    void restaurantDisplayOrder(); // display order details for restaurant view
 };
 
 #endif //ORDER_H

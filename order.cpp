@@ -131,7 +131,6 @@ double Order::calcOrderTime() {
 
 void Order::checkoutDisplay() {
     cout << "Order ID: " << getOrderID() << endl;
-    cout << "Customer: " << customer->getName() << ", ID: " << customer->getCustomerID() << endl;
     cout << "Restaurant: " << restaurant->getName() << endl;
     cout << "Items:\n";
     for (int i = 0; i < items.size(); i++) {
@@ -140,17 +139,61 @@ void Order::checkoutDisplay() {
                 << " | " << items[i].price * items[i].quantity << " OMR\n";
     }
     cout << "Food Price: " << calcFoodPrice() << " OMR\n";
+    cout << "======================\n";
 }
 
 // prints full order summary including items, status, and totals
-void Order::displayOrder() {
+void Order::customerDisplayOrder() {
     cout << "=== ORDER DETAILS ===\n";
     checkoutDisplay();
-    cout << "Delivery Fee: " << deliveryFee << endl;
+    cout << "Delivery Fee: " << deliveryFee << " OMR\n";
     cout << "Total Price: " << calculateTotalFee() << " OMR" << endl;
     cout << "======================\n";
     cout << "Estimated Time: " << calcOrderTime() << endl;
     cout << "Order Status: " << getStatus() << endl;
-    cout << "Payment type: " << payment->getPaymentType() << ", status: " << payment->getStatus() << endl;
+    cout << "Payment Type: " << payment->getPaymentType() << ", status: " << payment->getStatus() << endl;
     cout << "Driver: " << driver->getDriverName() << ", contact number: " << driver->getDriverPhone() << endl;
+    cout << "======================\n";
+}
+
+void Order::driverDisplayOrder() {
+    cout << "=== ASSIGNED ORDER ===\n";
+    cout << "Order ID: " << getOrderID() << endl;
+    cout << "======================\n";
+    cout << "Pickup From:\n";
+    cout << "Restaurant: " << restaurant->getName() << endl;
+    cout << "Address: " << restaurant->getAddress() << endl;
+    cout << "======================\n";
+    cout << "Deliver To:\n";
+    cout << "Customer: " << customer->getName() << endl;
+    cout << "Address: " << customer->getAddress() << endl;
+    cout << "Phone: " << customer->getPhone() << endl;
+    cout << "======================\n";
+    cout << "Order Status: " << getStatus() << endl;
+    cout << "Payment Type: " << payment->getPaymentType() << endl;
+    cout << "Payment Status: " << payment->getStatus() << endl;
+    cout << "======================\n";
+    cout << "Delivery Fee: " << deliveryFee << " OMR\n";
+    cout << "Estimated Delivery Time: "
+            << driver->calcEstTime(customer->getAddress(), restaurant->getAddress())
+            << " minutes\n";
+    cout << "======================\n";
+}
+
+void Order::restaurantDisplayOrder() {
+    cout << "=== RESTAURANT ORDER ===\n";
+    cout << "Order ID: " << getOrderID() << endl;
+    cout << "Customer: " << customer->getName() << endl;
+    cout << "Order Status: " << getStatus() << endl;
+    cout << "========================\n";
+    cout << "Items to Prepare:\n";
+    for (int i = 0; i < items.size(); i++) {
+        cout << i + 1 << "- " << items[i].name
+                << " x" << items[i].quantity << endl;
+    }
+    cout << "========================\n";
+    cout << "\nEstimated Preparation Time: "
+            << restaurant->calcPrepTime(items.size())
+            << " minutes\n";
+    cout << "========================\n";
 }

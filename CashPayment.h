@@ -13,7 +13,7 @@ public:
     CashPayment(); //default constructor: initializes cash payment with input values
     ~CashPayment() override; //destructor: cleans up cash payment when object is deleted
 
-    bool processPayment() override;
+    void paymentReciept() override;
 
     //override: processes cash payment (creates order, status stays pending until driver confirms)
     string getPaymentType() override; //override: returns Cash

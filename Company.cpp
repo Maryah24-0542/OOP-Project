@@ -89,20 +89,65 @@ Order *Company::newOrder(Customer *c) {
 }
 
 Driver *Company::assignDriver(Order *order) {
-    //stopped here
-    return nullptr;
+    string custAdd = order->getCustomer()->getAddress();
+    string restAdd = order->getRestaurant()->getAddress();
+    // Same area: prefer BikeDriver
+    if (custAdd == restAdd) {
+        for (Driver *d: drivers) {
+            if (d->getAvailability() && dynamic_cast<BikeDriver *>(d) != nullptr) {
+                d->setAssignedOrder(order);
+                order->setDriver(d);
+                return d;
+            }
+        }
+    }
+    // Different area: prefer CarDriver
+    else {
+        for (Driver *d: drivers) {
+            if (d->getAvailability() && dynamic_cast<CarDriver *>(d) != nullptr) {
+                d->setAssignedOrder(order);
+                order->setDriver(d);
+                return d;
+            }
+        }
+    }
+    // If preferred type is not available, assign any available driver
+    for (Driver *d: drivers) {
+        if (d->getAvailability()) {
+            d->setAssignedOrder(order);
+            order->setDriver(d);
+            return d;
+        }
+    }
 }
 
 void Company::checkout(Order *order) {
     cout << "=== CHECKOUT ===\n";
     order->checkoutDisplay();
+    int paymentChoice;
     cout << "\nChoose payment method:\n"
             "1. Cash\n"
-            "2. Card\n";
-    cout << "Enter choice: ";
-    int paymentChoice;
-    cin >> paymentChoice;
-    //incomplete, waiting for assignDriver
+            "2. Card" << endl;
+    do {
+        cout << "Enter choice: ";
+        cin >> paymentChoice;
+        if (paymentChoice == 1) {
+            Payment *p = new CashPayment();
+            order->setPayment(p);
+            p->paymentReciept();
+        } else if (paymentChoice == 2) {
+            Payment *p = new CardPayment();
+            order->setPayment(p);
+            p->paymentReciept();
+        } else {
+            cout << "Invalid payment choice, please try again\n";
+        }
+    } while (paymentChoice != 1 && paymentChoice != 2);
+    Driver *assignedDriver = assignDriver(order);
+    order->updateStatus();
+    cout << "=== ORDER CONFIRMATION ===\n";
+    cout << "Order placed successfully.\n";
+    order->customerDisplayOrder();
 }
 
 void Company::viewCurrentOrder(Order *order) {
@@ -111,7 +156,7 @@ void Company::viewCurrentOrder(Order *order) {
         return;
     } else {
         cout << "=== Current order ===" << endl;
-        order->displayOrder();
+        order->customerDisplayOrder();
         if (order->getStatus() == "Preparing") {
             int cancel;
             cout << "1. Cancel Order\n"
@@ -199,6 +244,24 @@ Driver *Company::driverLogin() {
     return driverLogin();
 }
 
+void Company::viewAssignedOrder(Driver *driver) {
+    Order *order = driver->getAssignedOrder();
+    if (order == nullptr) {
+        cout << "You have no assigned order right now." << endl;
+        return;
+    }
+    order->driverDisplayOrder();
+}
+void Company::driverUpdateOrder(Driver *driver) {
+    Order *order = driver->getAssignedOrder();
+    if (order == nullptr) {
+        cout << "You have no assigned order right now." << endl;
+        return;
+    }
+    cout << "=== UPDATE ORDER STATUS ===" << endl;
+    cout << "Current Status: " << order->getStatus() << endl;
+    //stopped here
+}
 //Restaurant
 Restaurant *Company::newRestaurant() {
     cout << "=== Register as New Restaurant ===" << endl;

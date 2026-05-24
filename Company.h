@@ -44,6 +44,10 @@ public:
 
     Driver *driverLogin();
 
+    void viewAssignedOrder(Driver *driver);
+
+    void driverUpdateOrder(Driver *driver);
+
     //Restaurant Methods
     Restaurant *newRestaurant();
 

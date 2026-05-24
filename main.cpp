@@ -103,7 +103,7 @@ int main() {
                                 cin >> driverDashboard;
                                 switch (driverDashboard) {
                                     case 1:
-                                        // company.viewAssignedOrders(d);
+                                        company.viewAssignedOrder(d);
                                         break;
 
                                     case 2:
