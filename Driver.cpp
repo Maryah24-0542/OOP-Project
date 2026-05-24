@@ -26,7 +26,7 @@ void Driver::setDriverID() {
     driverID = ss.str();
 }
 
-string Driver::getDriverID() {
+string Driver::getDriverID() const {
     return driverID;
 }
 
@@ -35,7 +35,7 @@ void Driver::setDriverName() {
     cin >> driverName;
 }
 
-string Driver::getDriverName() {
+string Driver::getDriverName() const {
     return driverName;
 }
 
@@ -44,7 +44,7 @@ void Driver::setDriverPhone() {
     cin >> driverPhone;
 }
 
-int Driver::getDriverPhone() {
+int Driver::getDriverPhone() const {
     return driverPhone;
 }
 
@@ -53,7 +53,7 @@ void Driver::setPlateNumber() {
     cin >> plateNumber;
 }
 
-string Driver::getPlateNumber() {
+string Driver::getPlateNumber() const {
     return plateNumber;
 }
 
@@ -61,7 +61,7 @@ void Driver::addEarnings(double amount) {
     earnings += amount;
 }
 
-double Driver::getEarnings() {
+double Driver::getEarnings() const {
     return earnings;
 }
 
@@ -69,11 +69,26 @@ void Driver::setAvailability(bool a) {
     isAvailable = a;
 }
 
-bool Driver::getAvailability() {
+bool Driver::getAvailability() const {
     return isAvailable;
 }
+
+void Driver::setAssignedOrder(Order *order) {
+    assignedOrder = order;
+    setAvailability(false);
+}
+
+Order *Driver::getAssignedOrder() const {
+    return assignedOrder;
+}
+
 void Driver::updateOrderStatus(Order *order) {
     order->updateStatus();
+}
+
+void Driver::clearAssignedOrder() {
+    assignedOrder = nullptr;
+    setAvailability(true);
 }
 
 void Driver::showDetails() {

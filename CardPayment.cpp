@@ -111,13 +111,9 @@ void CardPayment::validateExpiryDate(string expiry) {
 }
 
 bool CardPayment::processPayment() {
-    //method: process the payment
+    //method: print receipt
     cout << "========== CARD PAYMENT ==========\n"; //print header
-    // Step 1: Update payment status to Completed
-    setStatus("Completed"); //payment is complete
     cout << "Payment accepted!\n";
-
-    // Step 2: Print receipt
     cout << "========== PAYMENT RECEIPT ==========\n"; //print receipt header
     cout << "Payment ID: " << getPaymentID() << "\n"; //print payment ID
     cout << "Card Type: " << cardType << "\n"; //print card type

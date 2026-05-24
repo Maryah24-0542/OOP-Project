@@ -11,7 +11,8 @@ Order::Order(Customer *c, Restaurant *r) {
     setOrderID();
     // initialize cart system
     items.clear(); // ensure cart starts empty
-    status = "In cart"; // 0 = Cart
+    status = "In cart";
+    deliveryFee = 0.0;
     // initialize pointers to avoid dangling references
     customer = c;
     restaurant = r;
@@ -35,6 +36,11 @@ void Order::setOrderID() {
 }
 
 void Order::setStatus(string s) { status = s; }
+
+void Order::setDeliveryFee() {
+    deliveryFee = driver->calcDeliveryFee(customer->getAddress(), restaurant->getAddress());
+}
+
 void Order::setCustomer(Customer *c) { customer = c; }
 void Order::setRestaurant(Restaurant *r) { restaurant = r; }
 void Order::setDriver(Driver *d) { driver = d; }
@@ -43,6 +49,7 @@ void Order::setPayment(Payment *p) { payment = p; }
 // ================= GETTERS =================
 string Order::getOrderID() { return orderID; }
 string Order::getStatus() { return status; }
+double Order::getDeliveryFee() { return deliveryFee; }
 Customer *Order::getCustomer() { return customer; }
 Restaurant *Order::getRestaurant() { return restaurant; }
 Driver *Order::getDriver() { return driver; }
@@ -56,15 +63,19 @@ void Order::updateStatus() {
     else if (status == "On The Way") {
         status = "Delivered";
         updatePayment();
+        driver->addEarnings(deliveryFee);
+        driver->clearAssignedOrder();
     }
 }
 
 // cancel order if not yet delivered
 void Order::cancelOrder() {
-    if (status == "In cart") status = "Cancelled";
+    if (status == "In cart")
+        status = "Cancelled";
     if (status == "Preparing") {
         status = "Cancelled";
-        driver->setAvailability(true); // release driver back to available state
+        driver->clearAssignedOrder();
+        // restaurant->removeAssignedOrder(this);
     }
     cout << "Order cancelled successfully." << endl;
 }
@@ -105,7 +116,7 @@ double Order::calcFoodPrice() {
 }
 
 double Order::calculateTotalFee() {
-    double total = calcFoodPrice() + driver->calcDeliveryFee(customer->getAddress(), restaurant->getAddress());
+    double total = calcFoodPrice() + deliveryFee;
     payment->setAmount(total);
     return total;
 }
@@ -135,7 +146,7 @@ void Order::checkoutDisplay() {
 void Order::displayOrder() {
     cout << "=== ORDER DETAILS ===\n";
     checkoutDisplay();
-    cout << "Delivery Fee: " << driver->calcDeliveryFee(customer->getAddress(), restaurant->getAddress());
+    cout << "Delivery Fee: " << deliveryFee << endl;
     cout << "Total Price: " << calculateTotalFee() << " OMR" << endl;
     cout << "======================\n";
     cout << "Estimated Time: " << calcOrderTime() << endl;

@@ -17,7 +17,7 @@ protected:
     string plateNumber;
     bool isAvailable;
     double earnings;
-    vector<Order *> assignedOrders;
+    Order *assignedOrder;
 
 public:
     //constructor and destructor
@@ -34,6 +34,8 @@ public:
 
     void updateOrderStatus(Order *order);
 
+    void clearAssignedOrder();
+
     //setters
     void setDriverID();
 
@@ -47,17 +49,22 @@ public:
 
     void addEarnings(double amount);
 
+    void setAssignedOrder(Order *order);
+
+
     //getters
-    string getDriverID();
+    string getDriverID() const;
 
-    string getDriverName();
+    string getDriverName() const;
 
-    int getDriverPhone();
+    int getDriverPhone() const;
 
-    string getPlateNumber();
+    string getPlateNumber() const;
 
-    bool getAvailability();
+    bool getAvailability() const;
 
-    double getEarnings();
+    double getEarnings() const;
+
+    Order *getAssignedOrder() const;
 };
 #endif //DRIVER_H
