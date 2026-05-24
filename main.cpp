@@ -2,7 +2,7 @@
 #include "Company.h"
 
 using namespace std;
-
+//lama
 int main() {
     Company company = Company();
     Order *o = nullptr;

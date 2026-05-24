@@ -2,6 +2,7 @@
 #define RESTAURANT_H
 #include <iomanip> //need it for setfill and setw
 #include <string>
+#include "Order.h"
 #include "Menu.h" //because Resturant HAS-A menu (we will use it)
 
 using namespace std;
@@ -15,6 +16,7 @@ class Restaurant {
     double extraTimePerItem;
     Menu menu; //Restaurant has-a Menu (composition)
     static int count;
+    vector<Order*> assignedOrders;
 
 
 public:
@@ -25,6 +27,9 @@ public:
     double calcPrepTime(int itemCount);
 
     void display();
+    void updateOrderStatus(Order *order);
+    void addAssignedOrder(Order *order);
+    Order getAssignedOrder() const;
 
     //getters
     string getName() const;

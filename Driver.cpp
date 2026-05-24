@@ -75,7 +75,7 @@ bool Driver::getAvailability() const {
 
 void Driver::setAssignedOrder(Order *order) {
     assignedOrder = order;
-    setAvailability(false);
+    setAvailability(false); //driver has an order now = not available
 }
 
 Order *Driver::getAssignedOrder() const {
@@ -88,7 +88,7 @@ void Driver::updateOrderStatus(Order *order) {
 
 void Driver::clearAssignedOrder() {
     assignedOrder = nullptr;
-    setAvailability(true);
+    setAvailability(true); //after delivering the order, the driver is available again
 }
 
 void Driver::showDetails() {

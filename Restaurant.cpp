@@ -1,6 +1,7 @@
 #include "Restaurant.h"
 #include <sstream> //will use it for stringstream
 #include <iostream>
+#include "Order.h"
 using namespace std;
 
 int Restaurant::count = 1;
@@ -74,4 +75,15 @@ void Restaurant::setBasePrepTime() {
 void Restaurant::setExtraTimePerItem() {
     cout << "Enter restaurant's extra time per item: ";
     cin >> extraTimePerItem;
+}
+
+void Restaurant::updateOrderStatus(Order *order) {
+    order->updateStatus(); //update order state
+}
+
+void Restaurant::addAssignedOrder(Order *order) {
+    assignedOrders.push_back(order);
+}
+Order Restaurant::getAssignedOrder() const {
+    return ;
 }
