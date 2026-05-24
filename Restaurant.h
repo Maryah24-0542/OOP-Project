@@ -29,7 +29,7 @@ public:
     void display();
     void updateOrderStatus(Order *order);
     void addAssignedOrder(Order *order);
-    Order getAssignedOrder() const;
+
 
     //getters
     string getName() const;
