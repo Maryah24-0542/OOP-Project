@@ -115,7 +115,7 @@ void Company::viewCurrentOrder(Order *order) {
         if (order->getStatus() == "Preparing") {
             int cancel;
             cout << "1. Cancel Order\n"
-                    "2. Back";
+                    "2. Back" << endl;
             cin >> cancel;
             if (cancel == 1) {
                 order->cancelOrder();
@@ -131,7 +131,7 @@ void Company::viewCustomerInfo(Customer *customer) {
     customer->display();
     int update;
     cout << "1. Update my information\n"
-            "2. Back";
+            "2. Back" << endl;
     cout << "Enter choice: ";
     cin >> update;
     if (update == 1) {
@@ -139,7 +139,7 @@ void Company::viewCustomerInfo(Customer *customer) {
                 "\n1. Name"
                 "\n2. Phone number"
                 "\n3. Email"
-                "\n4. Address";
+                "\n4. Address" << endl;
         cout << "Enter choice: ";
         cin >> update;
         if (update == 1) {
