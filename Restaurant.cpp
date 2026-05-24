@@ -84,6 +84,3 @@ void Restaurant::updateOrderStatus(Order *order) {
 void Restaurant::addAssignedOrder(Order *order) {
     assignedOrders.push_back(order);
 }
-Order Restaurant::getAssignedOrder() const {
-    return ;
-}
