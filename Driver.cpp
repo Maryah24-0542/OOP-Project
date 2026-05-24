@@ -88,7 +88,7 @@ void Driver::updateOrderStatus(Order *order) {
 
 void Driver::clearAssignedOrder() {
     assignedOrder = nullptr;
-    setAvailability(true); //after delivering the order, the driver is available again
+    setAvailability(true); //after delivering the order, the driver is available again.
 }
 
 void Driver::showDetails() {
