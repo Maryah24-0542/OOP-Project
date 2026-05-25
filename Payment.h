@@ -13,16 +13,21 @@ class Payment {
 public:
     Payment(); //default constructor
     virtual ~Payment(); //virtual destructor
+    //setters
+    void setAmount(double total);
 
-    void setAmount(double total); //setter, updates the payment amount
-    void setPaymentID(); //setter, sets the payment ID
-    void setStatus(string status); //updates payment status
+    void setPaymentID();
 
-    double getAmount(); //getter, returns the payment amount
-    string getPaymentID(); //getter, returns the payment ID
-    string getStatus(); //getter, returns the payment status
+    void setStatus(string status);
 
-    virtual void paymentReciept() = 0; //subclasses must override to process the payment
+    //getters
+    double getAmount();
+
+    string getPaymentID();
+
+    string getStatus();
+
+    virtual void paymentReciept() = 0; //subclasses must override to print receipts
     virtual string getPaymentType() = 0; //subclasses must override to return Card or Cash payment
 };
 #endif //PAYMENT_H
