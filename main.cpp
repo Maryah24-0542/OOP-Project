@@ -2,7 +2,7 @@
 #include "Company.h"
 
 using namespace std;
-//lama
+
 int main() {
     Company company = Company();
     Order *o = nullptr;
@@ -38,7 +38,7 @@ int main() {
                             do {
                                 cout << "=== Customer Dashboard ===\n";
                                 cout << "1. Create New Order\n"
-                                        "2. View Current Order\n"
+                                        "2. View My Order\n"
                                         "3. View My Information\n"
                                         "4. Back to Main Menu\n";
                                 cout << "Enter your choice: ";
@@ -48,7 +48,7 @@ int main() {
                                         o = company.newOrder(c);
                                         break;
                                     case 2:
-                                        company.viewCurrentOrder(o);
+                                        company.viewMyOrder(o);
                                         break;
                                     case 3:
                                         company.viewCustomerInfo(c);
@@ -74,10 +74,10 @@ int main() {
             case 2:
                 do {
                     cout << "=== Driver Sign In Menu ===" << endl;
-                    cout << "1. Register as Bike Driver\n";
-                    cout << "2. Register as Car Driver\n";
-                    cout << "3. Login\n";
-                    cout << "4. Back\n";
+                    cout << "1. Register as Bike Driver\n"
+                            "2. Register as Car Driver\n"
+                            "3. Login\n"
+                            "4. Back\n";
                     cout << "Enter your choice number: ";
                     cin >> driverChoice;
                     switch (driverChoice) {
@@ -91,41 +91,42 @@ int main() {
 
                         case 3:
                             d = company.driverLogin();
-                            int driverDashboard;
-                            do {
-                                cout << "=== Driver Dashboard ===\n"
-                                        "1. View My Assigned Order\n"
-                                        "2. Update Order Status\n"
-                                        "3. Confirm Cash Payment\n"
-                                        "4. View My Information\n"
-                                        "5. Back to Main Menu\n";
-                                cout << "Enter your choice: ";
-                                cin >> driverDashboard;
-                                switch (driverDashboard) {
-                                    case 1:
-                                        company.viewAssignedOrder(d);
-                                        break;
 
-                                    case 2:
-                                        // company.updateDriverOrderStatus(d);
-                                        break;
+                            if (d != nullptr) {
+                                int driverDashboard;
 
-                                    case 3:
-                                        // company.confirmCashPayment(d);
-                                        break;
+                                do {
+                                    cout << "=== Driver Dashboard ===\n"
+                                            "1. View My Assigned Order\n"
+                                            "2. Update Order Status\n"
+                                            "3. View My Information\n"
+                                            "4. Back\n";
+                                    cout << "Enter your choice: ";
+                                    cin >> driverDashboard;
 
-                                    case 4:
-                                        // company.viewDriverInfo
-                                        break;
+                                    switch (driverDashboard) {
+                                        case 1:
+                                            company.viewDriverOrder(d);
+                                            break;
 
-                                    case 5:
-                                        break;
+                                        case 2:
+                                            company.driverUpdateOrder(d);
+                                            break;
 
-                                    default:
-                                        cout << "Invalid input, please enter a valid option." << endl;
-                                        break;
-                                }
-                            } while (driverDashboard != 5);
+                                        case 3:
+                                            company.viewDriverInfo(d);
+                                            break;
+
+                                        case 4:
+                                            break;
+
+                                        default:
+                                            cout << "Invalid input, please enter a valid option." << endl;
+                                            break;
+                                    }
+                                } while (driverDashboard != 4);
+                            }
+
                             break;
                         case 4:
                             break;
@@ -138,10 +139,10 @@ int main() {
                 break;
             case 3:
                 do {
-                    cout << "=== Restaurant Sign In Menu ===" << endl;
-                    cout << "1. Register as New Restaurant\n";
-                    cout << "2. Login\n";
-                    cout << "3. Back\n";
+                    cout << "=== Restaurant Sign In Menu ===\n"
+                            "1. Register as New Restaurant\n"
+                            "2. Login\n"
+                            "3. Back\n";
                     cout << "Enter your choice number: ";
                     cin >> restaurantChoice;
 
@@ -165,15 +166,15 @@ int main() {
 
                                 switch (restaurantDashboard) {
                                     case 1:
-                                        // company.viewRestaurantInfo(r);
+                                        company.viewRestaurantInfo(r);
                                         break;
 
                                     case 2:
-                                        // company.viewRestaurantMenu(r);
+                                        company.viewRestaurantMenu(r);
                                         break;
 
                                     case 3:
-                                        // company.viewRestaurantOrders(r);
+                                        company.viewRestaurantOrders(r);
                                         break;
 
                                     case 4:

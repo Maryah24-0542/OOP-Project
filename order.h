@@ -4,10 +4,11 @@
 #include <bits/stdc++.h>
 
 #include "Customer.h"
-#include "Restaurant.h"
 #include "Payment.h"
-class Driver;
 using namespace std;
+
+class Driver;
+class Restaurant;
 
 class Order {
     static int count; // used to generate unique order IDs
@@ -38,11 +39,8 @@ public:
 
     // ================= SETTERS =================
     void setOrderID();
-
     void setStatus(string status);
-
     void setDeliveryFee();
-
     void setCustomer(Customer *c); // assign customer
     void setRestaurant(Restaurant *r); // assign restaurant
     void setDriver(Driver *d); // assign driver
@@ -53,7 +51,6 @@ public:
     string getOrderID(); // return formatted order ID(eg,0-0001)
     string getStatus(); // return numeric status
     double getDeliveryFee();
-
     Customer *getCustomer(); // get customer object
     Restaurant *getRestaurant(); // get restaurants
     Driver *getDriver(); // get driver object
@@ -62,20 +59,26 @@ public:
     // ================= ORDER FUNCTIONS =================
 
     void updateStatus(); // change status: Preparing → On The Way
+
     void cancelOrder(); // cancel order and update payment status
+
     double calculateTotalFee(); // calculate total (food + delivery fee)
+
     void addItemToOrder(int itemID); // add item from menu using its ID
+
     void updatePayment();
 
     double calcOrderTime();
 
-    double calcFoodPrice(); // return total food price
+    double calcFoodPrice();
 
     void checkoutDisplay();
 
     void customerDisplayOrder(); // display order details for customer view
+
     void driverDisplayOrder(); // display order details for driver view
-    void restaurantDisplayOrder(); // display order details for restaurant view
+
+    friend ostream &operator<<(ostream &out, Order &order); // display order details for restaurant view
 };
 
 #endif //ORDER_H

@@ -1,6 +1,5 @@
 #include "Restaurant.h"
-#include <sstream> //will use it for stringstream
-#include <iostream>
+#include <bits/stdc++.h>
 #include "Order.h"
 using namespace std;
 
@@ -16,10 +15,20 @@ Restaurant::Restaurant() {
     ss << "R-" << setfill('0') << setw(4) << count++; //total of 4 digits (including the number from count)...  i guess
     restaurantId = ss.str(); //turn it into a string like "R-0001"
     cout << "Restaurant: " << name << " has been added, your restaurant ID: " << restaurantId << endl;
+    cout << "You must add at least one item to the menu" << endl;
+    addToMenu();
 }
 
-void Restaurant::addToMenu(string itemName, double price) {
-    menu.addItem(itemName, price);
+void Restaurant::addToMenu() {
+    menu.addItemName();
+    menu.addItemPrice();
+    cout << "Item added successfully." << endl;
+}
+
+void Restaurant::updateMenu(int ch) {
+    menu.updateItemName(ch);
+    menu.updateItemPrice(ch);
+    cout << "Item updated successfully." << endl;
 }
 
 double Restaurant::calcPrepTime(int itemCount) {
@@ -38,7 +47,7 @@ void Restaurant::display() {
     cout << "Extra time per item: " << extraTimePerItem << endl;
     cout << "Menu: " << endl;
     menu.display();
-    cout << "=========================" << endl;
+    cout << "=======================" << endl;
 }
 
 //getters
@@ -83,4 +92,36 @@ void Restaurant::updateOrderStatus(Order *order) {
 
 void Restaurant::addAssignedOrder(Order *order) {
     assignedOrders.push_back(order);
+}
+
+bool Restaurant::displayAssignedOrders() const {
+    if (assignedOrders.empty()) {
+        cout << "No assigned orders.\n";
+        return false;
+    }
+    cout << "=== ASSIGNED ORDERS ===\n";
+    for (int i = 0; i < assignedOrders.size(); i++) {
+        cout << "Order #" << i + 1 << endl;
+        cout << *assignedOrders[i];
+    }
+    return true;
+}
+
+void Restaurant::clearAssignedOrder(Order *order) {
+    for (int i = 0; i < assignedOrders.size(); i++) {
+        if (assignedOrders[i] == order) {
+            assignedOrders[i] = assignedOrders.back(); //we replace it with last element
+            assignedOrders.pop_back(); //then we remove last element (the order)
+            return;
+        }
+    }
+}
+
+Order *Restaurant::searchOrderByID(string orderID) {
+    for (Order *order: assignedOrders) {
+        if (order->getOrderID() == orderID) {
+            return order;
+        }
+    }
+    return nullptr;
 }

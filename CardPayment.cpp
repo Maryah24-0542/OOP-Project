@@ -25,13 +25,14 @@ void CardPayment::setCardholderName() {
 void CardPayment::setCardLastFour() {
     string cardNum;
     cout << "Enter valid card number: ";
-    cin >> cardNum;
+    getline(cin >> ws, cardNum);
+    //cin >> ws: removes whitespace/newlines only and does not delete the first real character.
     validateCardNumber(cardNum);
 }
 
 void CardPayment::setExpiryDate() {
     string expiry;
-    cout << "Enter valid card number: ";
+    cout << "Enter valid expiry date: ";
     cin >> expiry;
     validateExpiryDate(expiry);
 }
@@ -103,7 +104,7 @@ void CardPayment::validateExpiryDate(string expiry) {
         return setExpiryDate();
     }
 
-    if (year < 2026 || (year == 2026 && month < 5)) {
+    if (year < 26 || (year == 26 && month < 5)) {
         cout << "Card is expired.\n";
         return setExpiryDate();
     }
@@ -112,15 +113,11 @@ void CardPayment::validateExpiryDate(string expiry) {
 
 void CardPayment::paymentReciept() {
     //method: print receipt
-    cout << "========== CARD PAYMENT ==========\n"; //print header
     cout << "Payment accepted!\n";
-    cout << "========== PAYMENT RECEIPT ==========\n"; //print receipt header
+    cout << "========= PAYMENT RECEIPT =========\n"; //print receipt header
     cout << "Payment ID: " << getPaymentID() << "\n"; //print payment ID
     cout << "Card Type: " << cardType << "\n"; //print card type
     cout << "Card Number: **** **** **** " << cardLastFour << "\n"; //print masked card number
-    cout << "Cardholder: " << cardholderName << "\n"; //print cardholder name
-    cout << "Expiry Date: " << expiryDate << "\n"; //print expiry date
     cout << "Amount Charged: " << getAmount() << " OMR\n"; //print amount
-    cout << "Payment Status: " << getStatus() << "\n"; //print status
-    cout << "=====================================\n"; //print receipt footer
+    cout << endl;
 }

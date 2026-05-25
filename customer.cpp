@@ -64,4 +64,6 @@ void Customer::display() {
     cout << "Phone number: " << getPhone() << "\n";
     cout << "Email: " << getEmail() << "\n";
     cout << "Address: " << getAddress() << "\n";
+    cout << "============================\n";
+
 }

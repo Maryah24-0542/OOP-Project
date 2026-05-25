@@ -4,27 +4,27 @@
 using namespace std;
 
 BikeDriver::BikeDriver() {
-    setBaseFarePerKm();
+    setBikeModel();
     setMaxLoad();
     cout << "Driver: " << driverName << " has been added, your ID: " << driverID << endl;
 }
 
 double BikeDriver::calcDeliveryFee(string custAdd, string restAdd) {
     if (custAdd == restAdd) {
-        return baseFarePerKm;
+        return baseFare;
     }
-    return baseFarePerKm + 0.700;
+    return baseFare + 2;
 }
 
 double BikeDriver::calcEstTime(string custAdd, string restAdd) {
     if (custAdd == restAdd) {
-        return 25;
+        return 15;
     }
-    return 40;
+    return 30;
 }
 
 void BikeDriver::setMaxLoad() {
-    cout << "Enter Max load for your bike in kg : ";
+    cout << "Enter Max load for your bike in kg: ";
     cin >> maxLoadKg;
 }
 
@@ -32,17 +32,8 @@ double BikeDriver::getMaxLoad() {
     return maxLoadKg;
 }
 
-void BikeDriver::setBaseFarePerKm() {
-    cout << "Enter base fare for your bike: ";
-    cin >> baseFarePerKm;
-}
-
-double BikeDriver::getBaseFarePerKm() {
-    return baseFarePerKm;
-}
-
 void BikeDriver::setBikeModel() {
-    cout << "Enter your bike model : ";
+    cout << "Enter your bike model: ";
     cin >> bikeModel;
 }
 
@@ -52,7 +43,7 @@ string BikeDriver::getBikeModel() {
 
 void BikeDriver::showDetails() {
     Driver::showDetails();
-    cout << "Base fare per kilometer -> " << getBaseFarePerKm() << "\n";
-    cout << "Maximum load of of bike -> " << getMaxLoad() << "\n";
-    cout << "Bike model -> " << getBikeModel() << "\n";
+    cout << "Bike model: " << getBikeModel() << "\n";
+    cout << "Maximum load of of bike: " << getMaxLoad() << "\n";
+    cout << "=========================\n";
 }

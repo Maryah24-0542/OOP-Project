@@ -5,7 +5,6 @@
 using namespace std;
 
 class BikeDriver : public Driver {
-    double baseFarePerKm;
     string bikeModel;
     double maxLoadKg;
 
@@ -20,15 +19,11 @@ public:
     void showDetails() override;
 
     //setters
-    void setBaseFarePerKm();
-
     void setBikeModel();
 
     void setMaxLoad();
 
     //getters
-    double getBaseFarePerKm();
-
     string getBikeModel();
 
     double getMaxLoad();

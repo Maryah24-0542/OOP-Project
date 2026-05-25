@@ -8,9 +8,10 @@ int Driver::count = 1;
 Driver::Driver() {
     setDriverName();
     setDriverPhone();
-    setPlateNumber();
+    setBaseFare();
     setAvailability(true);
     earnings = 0;
+    setPlateNumber();
     setDriverID();
 }
 
@@ -64,7 +65,13 @@ void Driver::addEarnings(double amount) {
 double Driver::getEarnings() const {
     return earnings;
 }
-
+void Driver::setBaseFare() {
+    cout << "Enter base fare: ";
+    cin >> baseFare;
+}
+double Driver::getBaseFare() const {
+    return baseFare;
+}
 void Driver::setAvailability(bool a) {
     isAvailable = a;
 }
@@ -92,10 +99,12 @@ void Driver::clearAssignedOrder() {
 }
 
 void Driver::showDetails() {
-    cout << "Driver's ID: " << getDriverID() << "\n";
-    cout << "Driver's name: " << getDriverName() << "\n";
-    cout << "Driver's phone number: " << getDriverPhone() << "\n";
-    cout << "Driver's earnings: " << getEarnings() << "\n";
-    cout << "Drive's availability:" << getAvailability() << "\n";
+    cout << "=== Driver Information ===\n";
+    cout << "Driver ID: " << getDriverID() << "\n";
+    cout << "Name: " << getDriverName() << "\n";
+    cout << "Phone number: " << getDriverPhone() << "\n";
+    cout << "Earnings: " << getEarnings() << "\n";
+    cout << "Base fare: " << getBaseFare() << "\n";
     cout << "Plate number: " << getPlateNumber() << "\n";
+
 }

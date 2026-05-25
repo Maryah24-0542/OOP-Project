@@ -17,6 +17,7 @@ protected:
     string plateNumber;
     bool isAvailable;
     double earnings;
+    double baseFare;
     Order *assignedOrder;
 
 public:
@@ -49,6 +50,8 @@ public:
 
     void addEarnings(double amount);
 
+    void setBaseFare();
+
     void setAssignedOrder(Order *order);
 
 
@@ -64,6 +67,8 @@ public:
     bool getAvailability() const;
 
     double getEarnings() const;
+
+    double getBaseFare() const;
 
     Order *getAssignedOrder() const;
 };

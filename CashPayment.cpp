@@ -14,12 +14,9 @@ string CashPayment::getPaymentType() {
 }
 
 void CashPayment::paymentReciept() {
-    //Method: process cash payment (creates order, status stays pending)
-    cout << "========== CASH PAYMENT ==========\n"; //print header
-    // Step 1: Status stays "Pending" (driver will confirm later)
+    //method: print receipt
+    //Status stays "Pending" (driver will confirm later)
     cout << "Note: Driver will confirm payment when order is delivered.\n"; //print note
-
-    // Step 2: Print receipt
     cout << "========== PAYMENT RECEIPT ==========\n"; //print receipt header
     cout << "Payment ID: " << getPaymentID() << "\n"; //print payment ID
     cout << "Payment Type: " << getPaymentType() << "\n"; //print payment type

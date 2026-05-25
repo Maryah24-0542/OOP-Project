@@ -1,11 +1,11 @@
 #ifndef RESTAURANT_H
 #define RESTAURANT_H
-#include <iomanip> //need it for setfill and setw
+#include <bits/stdc++.h>
 #include <string>
-#include "Order.h"
 #include "Menu.h" //because Resturant HAS-A menu (we will use it)
 
 using namespace std;
+class Order;
 
 class Restaurant {
     string restaurantId; //the output will be like "R-0001"
@@ -16,20 +16,28 @@ class Restaurant {
     double extraTimePerItem;
     Menu menu; //Restaurant has-a Menu (composition)
     static int count;
-    vector<Order*> assignedOrders;
-
+    vector<Order *> assignedOrders;
 
 public:
     Restaurant();
 
-    void addToMenu(string itemName, double price);
+    void addToMenu();
+
+    void updateMenu(int ch);
 
     double calcPrepTime(int itemCount);
 
     void display();
+
     void updateOrderStatus(Order *order);
+
     void addAssignedOrder(Order *order);
 
+    bool displayAssignedOrders() const;
+
+    void clearAssignedOrder(Order *order);
+
+    Order *searchOrderByID(string orderID);
 
     //getters
     string getName() const;

@@ -1,4 +1,5 @@
 #include "Order.h"
+#include "Restaurant.h"
 #include "Driver.h"
 #include <bits/stdc++.h>
 
@@ -21,7 +22,6 @@ Order::Order(Customer *c, Restaurant *r) {
 }
 
 Order::~Order() {
-    cout << "Order deleted." << endl;
 }
 
 // ================= SETTERS =================
@@ -57,10 +57,16 @@ Payment *Order::getPayment() { return payment; }
 // ================= ORDER STATUS FUNCTIONS =================
 
 void Order::updateStatus() {
-    if (status == "In cart") status = "Preparing";
-    else if (status == "Preparing") status = "Ready for Pickup";
-    else if (status == "Ready for Pickup") status = "On The Way";
-    else if (status == "On The Way") {
+    if (status == "In cart") {
+        // Add order to restaurant active orders
+        status = "Preparing";
+        restaurant->addAssignedOrder(this);
+    } else if (status == "Preparing") {
+        status = "Ready for Pickup";
+        restaurant->clearAssignedOrder(this);
+    } else if (status == "Ready for Pickup") {
+        status = "On The Way";
+    } else if (status == "On The Way") {
         status = "Delivered";
         updatePayment();
         driver->addEarnings(deliveryFee);
@@ -75,29 +81,32 @@ void Order::cancelOrder() {
     if (status == "Preparing") {
         status = "Cancelled";
         driver->clearAssignedOrder();
-        // restaurant->removeAssignedOrder(this);
+        restaurant->clearAssignedOrder(this);
     }
     cout << "Order cancelled successfully." << endl;
 }
 
 // ================= ADD ITEM TO ORDER =================
-// adds food item from restaurant menu using item ID
+// Exception handling: prevents adding an item that does not exist in the restaurant menu
 void Order::addItemToOrder(int itemNumber) {
-    const Menu &menu = restaurant->getMenu(); // get menu safely from restaurant
-    if (!menu.isItemValid(itemNumber)) {
-        // validate item selection
-        cout << "Invalid item ID!\n";
-        return;
+    try {
+        const Menu &menu = restaurant->getMenu(); // get menu safely from restaurant
+        if (!menu.isItemValid(itemNumber)) { // validate item selection
+            cout << "Invalid item ID!\n";
+            return;
+        }
+        OrderItem newItem; // create new item entry in cart
+        // fetch item details from menu system
+        newItem.name = menu.getItemName(itemNumber);
+        newItem.price = menu.getItemPrice(itemNumber);
+        cout << "Enter quantity: ";
+        cin >> newItem.quantity;
+        items.push_back(newItem);
+        cout << "Added: " << newItem.name << " x" << newItem.quantity << " | " << newItem.price * newItem.quantity
+                << " OMR\n";
+    } catch (const char *msg) {
+        cout << msg << endl;
     }
-    OrderItem newItem; // create new item entry in cart
-    // fetch item details from menu system
-    newItem.name = menu.getItemName(itemNumber);
-    newItem.price = menu.getItemPrice(itemNumber);
-    cout << "Enter quantity: ";
-    cin >> newItem.quantity;
-    items.push_back(newItem);
-    cout << "Added: " << newItem.name << " x" << newItem.quantity << " | " << newItem.price * newItem.quantity
-            << " OMR\n";
 }
 
 // ================= PAYMENT PROCESS =================
@@ -122,8 +131,15 @@ double Order::calculateTotalFee() {
 }
 
 double Order::calcOrderTime() {
-    double prepTime = restaurant->calcPrepTime(items.size());
+    int totalQuantity = 0;
+
+    for (OrderItem item: items) {
+        totalQuantity += item.quantity;
+    }
+
+    double prepTime = restaurant->calcPrepTime(totalQuantity);
     double deliveryTime = driver->calcEstTime(customer->getAddress(), restaurant->getAddress());
+
     return prepTime + deliveryTime;
 }
 
@@ -139,7 +155,6 @@ void Order::checkoutDisplay() {
                 << " | " << items[i].price * items[i].quantity << " OMR\n";
     }
     cout << "Food Price: " << calcFoodPrice() << " OMR\n";
-    cout << "======================\n";
 }
 
 // prints full order summary including items, status, and totals
@@ -151,7 +166,7 @@ void Order::customerDisplayOrder() {
     cout << "======================\n";
     cout << "Estimated Time: " << calcOrderTime() << endl;
     cout << "Order Status: " << getStatus() << endl;
-    cout << "Payment Type: " << payment->getPaymentType() << ", status: " << payment->getStatus() << endl;
+    cout << "Payment Type: " << payment->getPaymentType() << endl;
     cout << "Driver: " << driver->getDriverName() << ", contact number: " << driver->getDriverPhone() << endl;
     cout << "======================\n";
 }
@@ -180,20 +195,24 @@ void Order::driverDisplayOrder() {
     cout << "======================\n";
 }
 
-void Order::restaurantDisplayOrder() {
-    cout << "=== RESTAURANT ORDER ===\n";
-    cout << "Order ID: " << getOrderID() << endl;
-    cout << "Customer: " << customer->getName() << endl;
-    cout << "Order Status: " << getStatus() << endl;
+ostream &operator<<(ostream &out, Order &order) {
+    cout << "Order ID: " << order.getOrderID() << endl;
+    cout << "Customer: " << order.customer->getName() << endl;
+    cout << "Order Status: " << order.getStatus() << endl;
     cout << "========================\n";
     cout << "Items to Prepare:\n";
-    for (int i = 0; i < items.size(); i++) {
-        cout << i + 1 << "- " << items[i].name
-                << " x" << items[i].quantity << endl;
+    for (int i = 0; i < order.items.size(); i++) {
+        cout << i + 1 << "- " << order.items[i].name
+                << " x" << order.items[i].quantity << endl;
     }
     cout << "========================\n";
-    cout << "\nEstimated Preparation Time: "
-            << restaurant->calcPrepTime(items.size())
+    int totalQuantity = 0;
+    for (Order::OrderItem item: order.items) {
+        totalQuantity += item.quantity;
+    }
+    cout << "Estimated Preparation Time: "
+            << order.restaurant->calcPrepTime(totalQuantity)
             << " minutes\n";
     cout << "========================\n";
+    return out;
 }

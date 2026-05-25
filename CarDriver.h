@@ -4,9 +4,7 @@
 using namespace std;
 
 class CarDriver : public Driver {
-    int seatingCapacity;
     string carModel;
-    double baseFarePerKm;
 
 public:
     CarDriver();
@@ -19,17 +17,9 @@ public:
     void showDetails() override;
 
     //setters
-    void setSeatingCapacity();
-
-    void setBaseFarePerKm();
-
     void setCarModel();
 
     //getters
-    int getSeatingCapacity();
-
-    double getBaseFarePerKm();
-
     string getCarModel();
 };
 #endif //CARDRIVER_H

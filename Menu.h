@@ -21,7 +21,14 @@ public:
 
     bool isItemValid(int ch) const;
 
-    void setItemName(int ch, string nwName);
+    void addItemName();
 
-    void setItemPrice(int ch, double nwprice);
+    void addItemPrice();
+
+    // for editing existing item
+    void updateItemName(int ch);
+
+    void updateItemPrice(int ch);
+
+    void removeItem(int ch);
 };
