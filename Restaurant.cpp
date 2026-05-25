@@ -19,25 +19,25 @@ Restaurant::Restaurant() {
     addToMenu();
 }
 
-void Restaurant::addToMenu() {
-    menu.addItemName();
-    menu.addItemPrice();
+void Restaurant::addToMenu() { //adding items to the menu
+    menu.addItemName(); //to add the item name
+    menu.addItemPrice();//to add the item price
     cout << "Item added successfully." << endl;
 }
 
-void Restaurant::updateMenu(int ch) {
+void Restaurant::updateMenu(int ch) { //update the items in menu
     menu.updateItemName(ch);
     menu.updateItemPrice(ch);
     cout << "Item updated successfully." << endl;
 }
 
-double Restaurant::calcPrepTime(int itemCount) {
+double Restaurant::calcPrepTime(int itemCount) { //calculate the time to prepare
     if (itemCount <= 2)
         return basePrepTime;
     return basePrepTime + (itemCount - 2) * extraTimePerItem;
 }
 
-void Restaurant::display() {
+void Restaurant::display() { //resturant info display +menu
     cout << "=== Restaurant Info ===" << endl;
     cout << "Restaurant ID: " << restaurantId << endl;
     cout << "Restaurant: " << name << endl;
@@ -61,27 +61,27 @@ double Restaurant::getExtraTimePerItem() const { return extraTimePerItem; }
 // allows access to all menu items (names and prices)
 Menu &Restaurant::getMenu() { return menu; }
 //setters
-void Restaurant::setName() {
+void Restaurant::setName() { //set the resturant name
     cout << "Enter restaurant's name: ";
     cin >> name;
 }
 
-void Restaurant::setCuisine() {
+void Restaurant::setCuisine() { //set the cusinie
     cout << "Enter restaurant's cuisine: ";
     cin >> cuisine;
 }
 
-void Restaurant::setAddress() {
+void Restaurant::setAddress() { //set the address of the resturant
     cout << "Enter restaurant's address: ";
     cin >> address;
 }
 
-void Restaurant::setBasePrepTime() {
+void Restaurant::setBasePrepTime() { //the time the resturant might take for preparation
     cout << "Enter restaurant's base preparation time: ";
     cin >> basePrepTime;
 }
 
-void Restaurant::setExtraTimePerItem() {
+void Restaurant::setExtraTimePerItem() { //the extra time the resturant might take for preparation per item
     cout << "Enter restaurant's extra time per item: ";
     cin >> extraTimePerItem;
 }
