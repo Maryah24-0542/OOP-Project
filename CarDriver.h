@@ -3,10 +3,11 @@
 #include "Driver.h"
 using namespace std;
 
-class CarDriver : public Driver {
+class CarDriver : public Driver {  // inherits from class Driver
     string carModel;
 
 public:
+    // constructor
     CarDriver();
 
     //driver functions

@@ -9,8 +9,9 @@ class Customer {
     string name, email, address, customerID;
 
 public:
+    // constructor
     Customer();
-
+// setters
     void setPhone();
 
     void setName();
@@ -18,7 +19,7 @@ public:
     void setEmail();
 
     void setAddress();
-
+// getters
     int getPhone();
 
     string getName();
@@ -28,7 +29,7 @@ public:
     string getAddress();
 
     string getCustomerID();
-
+// display method
     void display();
 
 };

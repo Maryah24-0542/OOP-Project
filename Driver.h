@@ -27,7 +27,7 @@ public:
     virtual ~Driver();
 
     //driver functions
-    virtual double calcDeliveryFee(string custAdd, string restAdd) = 0;
+    virtual double calcDeliveryFee(string custAdd, string restAdd) = 0; //custAdd= Customer Address   restAdd= Restaurant Address
 
     virtual double calcEstTime(string custAdd, string restAdd) = 0;
 

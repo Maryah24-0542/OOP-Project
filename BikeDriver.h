@@ -4,11 +4,12 @@
 #include "Driver.h"
 using namespace std;
 
-class BikeDriver : public Driver {
+class BikeDriver : public Driver { // inherits from class Driver
     string bikeModel;
     double maxLoadKg;
 
 public:
+    //constructor
     BikeDriver();
 
     //driver functions
